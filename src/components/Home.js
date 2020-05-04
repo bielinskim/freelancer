@@ -10,10 +10,10 @@ class Home extends React.Component {
                 <h2>Home</h2>
                 <ul>
                     <li>
-                        <Link to="/form/search">Znajdz prace</Link>
+                        <Link to="/browse">Znajdz prace</Link>
                     </li>
                     <li>
-                        <Link to="/form/create">Daj prace</Link>
+                        <Link to="/create">Daj prace</Link>
                     </li>
                 </ul>
             </div>
