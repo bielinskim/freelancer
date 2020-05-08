@@ -1,21 +1,33 @@
 import React from "react";
 // eslint-disable-next-line
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import "../icons/icons.css";
+import "./styles.css";
+import Icon from "../icons/Icons";
 
 class Home extends React.Component {
     render() {
         return (
             <div>
+                <style>
+                    @import
+                    url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
+                </style>
                 <h2>Home</h2>
-                <ul>
-                    <li>
-                        <Link to="/browse">Znajdz prace</Link>
-                    </li>
-                    <li>
-                        <Link to="/create">Daj prace</Link>
-                    </li>
-                </ul>
+                <div className="home-select-box">
+                    <Link to="/browse">
+                        <div className="home-item-container">
+                            <Icon icon="search" />
+                            <p>Szukaj</p>
+                        </div>
+                    </Link>
+                    <div className="home-item-separ"></div>
+                    <Link to="/create">
+                        <div className="home-item-container">
+                            <Icon icon="create" />
+                            <p>Stwórz</p>
+                        </div>
+                    </Link>
+                </div>
             </div>
         );
     }

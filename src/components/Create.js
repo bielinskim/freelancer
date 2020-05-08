@@ -129,8 +129,9 @@ class Create extends React.Component {
                     <div id="form-first-step">
                         <h2>Kategorie</h2>
                         {this.state.categories.map((item) => (
-                            <label>
+                            <label key={item.category_id}>
                                 <div
+                                    key={item.category_id}
                                     category_id={item.category_id}
                                     onClick={this.selectCategory}
                                 >
@@ -151,7 +152,7 @@ class Create extends React.Component {
                     <div id="form-second-step">
                         <h2>Umiejetnosci</h2>
                         {this.state.skills.map((item) => (
-                            <div>
+                            <div key={item.skill_id}>
                                 <input
                                     key={item.skill_id}
                                     onClick={this.selectSkill}
@@ -198,8 +199,7 @@ class Create extends React.Component {
     }
 }
 
-{
-    /* <Link
+/* <Link
     to={{
         pathname: "/create",
         state: {
@@ -209,7 +209,7 @@ class Create extends React.Component {
 >
     Test
 </Link>; */
-}
+
 // componentDidMount() {
 //     var recievedMessage = this.props.location.state.message;
 //     alert(recievedMessage);

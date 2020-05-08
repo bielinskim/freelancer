@@ -85,8 +85,9 @@ class Browse extends React.Component {
                     <div id="form-first-step">
                         <h2>Kategorie</h2>
                         {this.state.categories.map((item) => (
-                            <label>
+                            <label key={item.category_id}>
                                 <div
+                                    key={item.category_id}
                                     category_id={item.category_id}
                                     onClick={this.selectCategory}
                                 >
