@@ -102,7 +102,6 @@ class OffersList extends React.Component {
     render() {
         return (
             <div>
-                dasdsa
                 {this.state.offers.map((item) => (
                     <div key={item.id}>
                         <p>{item.user[0].login}</p>
@@ -127,14 +126,12 @@ class AddOffer extends React.Component {
         this.state = {
             project: props.project,
             skillsToSelect: [],
-            offer: {
-                skillsChecked: [],
-                message: "",
-                price: 0,
-                estimated_time: 0,
-                project_id: props.project.project_id,
-                user_id: sessionStorage.getItem("userId"),
-            },
+            skillsChecked: [],
+            message: "",
+            price: 0,
+            estimated_time: 0,
+            project_id: props.project.id,
+            user_id: sessionStorage.getItem("userId"),
         };
 
         this.changeState = this.changeState.bind(this);
@@ -147,28 +144,25 @@ class AddOffer extends React.Component {
     changeState(e) {
         switch (e.target.id) {
             case "offer-message":
-                this.state.setState({ message: e.target.value });
+                this.setState({ message: e.target.value });
                 break;
             case "offer-time":
-                this.state.setState({ estimated_time: e.target.value });
+                this.setState({ estimated_time: e.target.value });
                 break;
             case "offer-price":
-                this.state.setState({ price: e.target.value });
+                this.setState({ price: e.target.value });
                 break;
         }
     }
     selectSkill(e) {
         if (e.target.checked) {
-            this.state.offer.setState({
-                skillsChecked: [
-                    ...this.state.offer.skillsChecked,
-                    e.target.value,
-                ],
+            this.setState({
+                skillsChecked: [...this.state.skillsChecked, e.target.value],
             });
         } else {
-            let remove = this.state.offer.skillsChecked.indexOf(e.target.value);
+            let remove = this.state.skillsChecked.indexOf(e.target.value);
             this.setState({
-                skillsChecked: this.state.offer.skillsChecked.filter(
+                skillsChecked: this.state.skillsChecked.filter(
                     (_, i) => i !== remove
                 ),
             });
@@ -180,15 +174,16 @@ class AddOffer extends React.Component {
             skillsToSelect: res,
         });
     }
-    handleSubmit() {
+    handleSubmit(event) {
+        event.preventDefault();
         var body = {
-            category: this.state.project.category_id,
-            skills: this.state.offer.skillsChecked,
-            message: this.state.offer.message,
-            estimated_time: this.state.offer.estimated_time,
-            price: this.state.offer.price,
-            project_id: this.state.offer.project_id,
-            user_id: this.state.offer.user_id,
+            category: this.state.project.category,
+            skills: this.state.skillsChecked,
+            message: this.state.message,
+            estimated_time: this.state.estimated_time,
+            price: this.state.price,
+            project_id: this.state.project.id,
+            user_id: this.state.user_id,
         };
         const requestOptions = {
             method: "POST",
@@ -198,11 +193,14 @@ class AddOffer extends React.Component {
         fetch("http://localhost:8080/postoffer", requestOptions).then(() =>
             alert("Wysłano")
         );
+        this.setState({
+            offer: "",
+        });
     }
     render() {
         return (
             <div>
-                <form>
+                <form onSubmit={this.handleSubmit}>
                     <div id="skills">
                         {this.state.skillsToSelect.map((item) => (
                             <div key={item.skill_id}>
@@ -216,36 +214,33 @@ class AddOffer extends React.Component {
                             </div>
                         ))}
                     </div>
-                    <div id="message">
+                    <div id="offer-message-container">
                         <label>Treść</label>
                         <textarea
                             id="offer-message"
-                            value={this.state.value}
                             name="message"
                             onChange={this.changeState}
                         />
                     </div>
-                    <div id="offer-time">
+                    <div id="offer-time-container">
                         <label>Szacowany czas(w dniach)</label>
                         <input
-                            id=""
+                            id="offer-time"
                             type="number"
                             name="time"
                             onChange={this.changeState}
                         />
                     </div>
-                    <div id="offer-price">
+                    <div id="offer-price-container">
                         <label>Proponowana cena</label>
                         <input
-                            id=""
+                            id="offer-price"
                             type="number"
                             name="price"
                             onChange={this.changeState}
                         />
                     </div>
-                    <button type="submit" onSubmit={this.handleSubmit}>
-                        Wyślij
-                    </button>
+                    <button type="submit">Wyślij</button>
                     <br />
                 </form>
             </div>
