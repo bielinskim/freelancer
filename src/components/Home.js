@@ -3,7 +3,6 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./styles.css";
 import Icon from "../icons/Icons";
-import LoginRegister from "./LoginRegister";
 
 class Home extends React.Component {
     render() {
@@ -29,7 +28,6 @@ class Home extends React.Component {
                         </div>
                     </Link>
                 </div>
-                <LoginRegister />
             </div>
         );
     }

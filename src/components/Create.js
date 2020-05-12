@@ -3,6 +3,8 @@ import Nav from "./Nav";
 // eslint-disable-next-line
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Icon from "../icons/Icons";
+import LoginRegister from "./LoginRegister";
+import { getSkillsByCategoryId, getCategories } from "./Util";
 
 class Create extends React.Component {
     constructor(props) {
@@ -17,8 +19,10 @@ class Create extends React.Component {
             error: null,
             isLoaded: false,
             posted: false,
+            isLogged: sessionStorage.getItem("isLogged"),
+            userId: sessionStorage.getItem("userId"),
+            loginButton: "",
         };
-        //this.handleSubmit = this.handleSubmit.bind(this);
         this.secondStep = this.secondStep.bind(this);
         this.thirdStep = this.thirdStep.bind(this);
         this.selectCategory = this.selectCategory.bind(this);
@@ -26,45 +30,29 @@ class Create extends React.Component {
         this.descChange = this.descChange.bind(this);
         this.priceChange = this.priceChange.bind(this);
         this.postProject = this.postProject.bind(this);
+        this.changeLoginStatus = this.changeLoginStatus.bind(this);
+        this.showhideLoginBox = this.showhideLoginBox.bind(this);
     }
-    componentDidMount() {
-        fetch("http://localhost:8080/categories")
-            .then((res) => res.json())
-            .then(
-                (result) => {
-                    this.setState({
-                        isLoaded: true,
-                        categories: result,
-                    });
-                },
-                (error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error,
-                    });
-                }
-            );
-
+    async componentDidMount() {
+        const result = await getCategories();
+        this.setState({
+            categories: result,
+        });
+        this.setState({
+            loginButton: (
+                <button value="show" onClick={this.showhideLoginBox}>
+                    Zeby dodac projekt musisz byc zalogowany
+                </button>
+            ),
+        });
         document.getElementById("form-second-step").style.display = "none";
         document.getElementById("form-third-step").style.display = "none";
     }
-    secondStep() {
-        fetch("http://localhost:8080/skills/" + this.state.categoryChecked)
-            .then((res) => res.json())
-            .then(
-                (result) => {
-                    this.setState({
-                        isLoaded: true,
-                        skills: result,
-                    });
-                },
-                (error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error,
-                    });
-                }
-            );
+    async secondStep() {
+        const res = await getSkillsByCategoryId(this.state.categoryChecked);
+        this.setState({
+            skills: res,
+        });
         document.getElementById("form-first-step").style.display = "none";
         document.getElementById("form-second-step").style.display = "block";
     }
@@ -111,17 +99,46 @@ class Create extends React.Component {
             skills: this.state.skillsChecked,
             desc: this.state.desc,
             price: this.state.price,
+            user_id: this.state.userId,
         };
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
         };
-        fetch("http://localhost:8080/post", requestOptions).then(() =>
+        fetch("http://localhost:8080/createproject", requestOptions).then(() =>
             alert("Wysłano")
         );
     }
+    changeLoginStatus() {
+        this.setState({
+            isLogged: sessionStorage.getItem("isLogged"),
+            userId: sessionStorage.getItem("userId"),
+        });
+    }
+    showhideLoginBox(e) {
+        e.preventDefault();
+        if (e.target.value == "show") {
+            this.setState({
+                loginButton: (
+                    <LoginRegister changeStatus={this.changeLoginStatus} />
+                ),
+            });
+        }
+        // TODO: obsluga 'anuluj'
+        // else if(e.target.value == "hide")
+    }
     render() {
+        let submitButton;
+        if (this.state.isLogged) {
+            submitButton = (
+                <Link to="/">
+                    <button onClick={this.postProject}>Wyślij</button>
+                </Link>
+            );
+        } else {
+            submitButton = this.state.loginButton;
+        }
         return (
             <div>
                 <Nav />
@@ -188,9 +205,7 @@ class Create extends React.Component {
                                 onChange={this.priceChange}
                             />
                         </div>
-                        <Link to="/">
-                            <button onClick={this.postProject}>Wyślij</button>
-                        </Link>
+                        {submitButton}
                         <br />
                     </div>
                 </form>
@@ -198,45 +213,5 @@ class Create extends React.Component {
         );
     }
 }
-
-/* <Link
-    to={{
-        pathname: "/create",
-        state: {
-            message: "hello, im a passed message!",
-        },
-    }}
->
-    Test
-</Link>; */
-
-// componentDidMount() {
-//     var recievedMessage = this.props.location.state.message;
-//     alert(recievedMessage);
-// }
-// function firstStep() {
-
-// }
-// function SubmitButton(props) {
-//     if (props.stat.type === "search") {
-//         return (
-//             <Link to="/">
-//                 <button>Dalej</button>
-//             </Link>
-//         );
-//     } else if (props.stat.type === "create")
-//         return (
-//             <Link to="/create">
-//                 <button>Dalej</button>
-//             </Link>
-//         );
-//     else {
-//         return (
-//             <Link to="/">
-//                 <button>Dalej</button>
-//             </Link>
-//         );
-//     }
-// }
 
 export default Create;

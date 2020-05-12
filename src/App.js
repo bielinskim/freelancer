@@ -5,8 +5,6 @@ import Create from "./components/Create";
 import Browse from "./components/Browse";
 import List from "./components/List";
 import Project from "./components/Project";
-import Login from "./components/Login";
-import Register from "./components/Register";
 class App extends React.Component {
     render() {
         return (
@@ -17,8 +15,6 @@ class App extends React.Component {
                     <Route path="/browse" component={Browse} />
                     <Route path="/list" component={List} />
                     <Route path="/project" component={Project} />
-                    <Route path="/login" component={Login} />
-                    <Route path="/register" component={Register} />
                 </Switch>
             </Router>
         );

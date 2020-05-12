@@ -2,6 +2,8 @@ import React from "react";
 // eslint-disable-next-line
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./styles.css";
+var AES = require("crypto-js/aes");
+var SHA256 = require("crypto-js/sha256");
 
 class Login extends React.Component {
     constructor(props) {
@@ -24,18 +26,31 @@ class Login extends React.Component {
         }
     }
     handleSubmit(event) {
-        const body = {
-            login: this.state.login,
-            password: this.state.password,
-        };
-        const requestOptions = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body),
-        };
-        fetch("http://localhost:8080/login", requestOptions).then((response) =>
-            alert(response)
-        );
+        event.preventDefault();
+        fetch(
+            "http://localhost:8080/login/" +
+                this.state.login +
+                "/" +
+                SHA256(this.state.password).toString()
+        )
+            .then((res) => res.json())
+            .then((result) => {
+                if (result.length !== 0) {
+                    sessionStorage.setItem("isLogged", true);
+                    sessionStorage.setItem("userId", result[0].user_id);
+                    this.props.changeStatus();
+                } else {
+                    alert("Nie udało sie zalogować");
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+        this.setState({
+            mail: "",
+            login: "",
+            password: "",
+        });
     }
     render() {
         return (

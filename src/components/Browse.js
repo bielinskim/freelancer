@@ -3,6 +3,7 @@ import Nav from "./Nav";
 // eslint-disable-next-line
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Icon from "../icons/Icons";
+import { getSkillsByCategoryId, getCategories } from "./Util";
 
 class Browse extends React.Component {
     constructor(props) {
@@ -19,38 +20,18 @@ class Browse extends React.Component {
         this.selectCategory = this.selectCategory.bind(this);
         this.selectSkill = this.selectSkill.bind(this);
     }
-    componentDidMount() {
-        fetch("http://localhost:8080/categories")
-            .then((res) => res.json())
-            .then(
-                (result) => {
-                    this.setState({
-                        isLoaded: true,
-                        categories: result,
-                    });
-                },
-                (error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error,
-                    });
-                }
-            );
-
+    async componentDidMount() {
+        const result = await getCategories();
+        this.setState({
+            categories: result,
+        });
         document.getElementById("form-second-step").style.display = "none";
     }
-    secondStep() {
-        fetch("http://localhost:8080/skills/" + this.state.categoryChecked)
-            .then((res) => res.json())
-            .then((result) => {
-                this.setState({
-                    isLoaded: true,
-                    skills: result,
-                });
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
+    async secondStep() {
+        const res = await getSkillsByCategoryId(this.state.categoryChecked);
+        this.setState({
+            skills: res,
+        });
         document.getElementById("form-first-step").style.display = "none";
         document.getElementById("form-second-step").style.display = "block";
     }

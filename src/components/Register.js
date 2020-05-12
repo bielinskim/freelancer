@@ -2,6 +2,8 @@ import React from "react";
 // eslint-disable-next-line
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./styles.css";
+var AES = require("crypto-js/aes");
+var SHA256 = require("crypto-js/sha256");
 
 class Register extends React.Component {
     constructor(props) {
@@ -10,6 +12,7 @@ class Register extends React.Component {
             mail: "",
             login: "",
             password: "",
+            role: 3,
         };
         this.changeState = this.changeState.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -28,20 +31,32 @@ class Register extends React.Component {
         }
     }
     handleSubmit(event) {
+        event.preventDefault();
         const body = {
             mail: this.state.mail,
             login: this.state.login,
-            password: this.state.password,
+            password: SHA256(this.state.password).toString(),
+            role: this.state.role,
         };
-        const requestOptions = {
+        const request = {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+            },
             body: JSON.stringify(body),
         };
-        fetch(
-            "http://localhost:8080/register",
-            requestOptions
-        ).then((response) => alert(response));
+        fetch("http://localhost:8080/register", request)
+            .then((result) => {
+                // status: 200 jesli ok
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+        this.setState({
+            mail: "",
+            login: "",
+            password: "",
+        });
     }
     render() {
         return (
