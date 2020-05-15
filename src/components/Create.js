@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Icon from "../icons/Icons";
 import LoginRegister from "./LoginRegister";
 import { getSkillsByCategoryId, getCategories } from "./Util";
+import "./styles.css";
 
 class Create extends React.Component {
     constructor(props) {
@@ -32,6 +33,7 @@ class Create extends React.Component {
         this.postProject = this.postProject.bind(this);
         this.changeLoginStatus = this.changeLoginStatus.bind(this);
         this.showhideLoginBox = this.showhideLoginBox.bind(this);
+        this.logout = this.logout.bind(this);
     }
     async componentDidMount() {
         const result = await getCategories();
@@ -45,8 +47,6 @@ class Create extends React.Component {
                 </button>
             ),
         });
-        document.getElementById("form-second-step").style.display = "none";
-        document.getElementById("form-third-step").style.display = "none";
     }
     async secondStep() {
         const res = await getSkillsByCategoryId(this.state.categoryChecked);
@@ -117,100 +117,122 @@ class Create extends React.Component {
         });
     }
     showhideLoginBox(e) {
-        e.preventDefault();
+        //e.preventDefault();
         if (e.target.value == "show") {
             this.setState({
                 loginButton: (
-                    <LoginRegister changeStatus={this.changeLoginStatus} />
+                    <LoginRegister
+                        changeStatus={this.changeLoginStatus}
+                        showhideLoginBox={this.showhideLoginBox}
+                    />
+                ),
+            });
+        } else if (e.target.value == "hide") {
+            this.setState({
+                loginButton: (
+                    <button value="show" onClick={this.showhideLoginBox}>
+                        Zeby dodac projekt musisz byc zalogowany
+                    </button>
                 ),
             });
         }
-        // TODO: obsluga 'anuluj'
-        // else if(e.target.value == "hide")
+    }
+    logout() {
+        this.setState({
+            isLogged: false,
+            loginButton: (
+                <button value="show" onClick={this.showhideLoginBox}>
+                    Zeby dodac projekt musisz byc zalogowany
+                </button>
+            ),
+        });
     }
     render() {
-        let submitButton;
-        if (this.state.isLogged) {
-            submitButton = (
-                <Link to="/">
-                    <button onClick={this.postProject}>Wyślij</button>
-                </Link>
+        if ("true" != this.state.isLogged) {
+            return (
+                <div>
+                    <Nav isLogged={this.state.isLogged} logout={this.logout} />
+                    {this.state.loginButton}
+                </div>
             );
         } else {
-            submitButton = this.state.loginButton;
-        }
-        return (
-            <div>
-                <Nav />
-                <form>
-                    <div id="form-first-step">
-                        <h2>Kategorie</h2>
-                        {this.state.categories.map((item) => (
-                            <label key={item.category_id}>
-                                <div
-                                    key={item.category_id}
-                                    category_id={item.category_id}
-                                    onClick={this.selectCategory}
-                                >
-                                    <Icon icon={item.icon} />
+            return (
+                <div>
+                    <Nav isLogged={this.state.isLogged} logout={this.logout} />
+                    <form>
+                        <div id="form-first-step">
+                            <h2>Kategorie</h2>
+                            {this.state.categories.map((item) => (
+                                <label key={item.category_id}>
+                                    <div
+                                        key={item.category_id}
+                                        category_id={item.category_id}
+                                        onClick={this.selectCategory}
+                                    >
+                                        <Icon icon={item.icon} />
+                                    </div>
+                                    {item.name}
+                                </label>
+                            ))}
+                            <br />
+                            <button
+                                id="second-step-button"
+                                type="button"
+                                onClick={this.secondStep}
+                            >
+                                Dalej
+                            </button>
+                        </div>
+                        <div id="form-second-step" style={{ display: "none" }}>
+                            <h2>Umiejetnosci</h2>
+                            {this.state.skills.map((item) => (
+                                <div key={item.skill_id}>
+                                    <input
+                                        key={item.skill_id}
+                                        onClick={this.selectSkill}
+                                        type="checkbox"
+                                        value={item.skill_id}
+                                    />
+                                    {item.name}
                                 </div>
-                                {item.name}
-                            </label>
-                        ))}
-                        <br />
-                        <button
-                            id="second-step-button"
-                            type="button"
-                            onClick={this.secondStep}
-                        >
-                            Dalej
-                        </button>
-                    </div>
-                    <div id="form-second-step">
-                        <h2>Umiejetnosci</h2>
-                        {this.state.skills.map((item) => (
-                            <div key={item.skill_id}>
-                                <input
-                                    key={item.skill_id}
-                                    onClick={this.selectSkill}
-                                    type="checkbox"
-                                    value={item.skill_id}
+                            ))}
+                            <br />
+                            <button
+                                id="third-step-button"
+                                type="button"
+                                onClick={this.thirdStep}
+                            >
+                                Dalej
+                            </button>
+                        </div>
+                        <div id="form-third-step" style={{ display: "none" }}>
+                            <div id="desc">
+                                <h2>Opis</h2>
+                                <textarea
+                                    value={this.state.value}
+                                    name="desc"
+                                    onChange={this.descChange}
                                 />
-                                {item.name}
                             </div>
-                        ))}
-                        <br />
-                        <button
-                            id="third-step-button"
-                            type="button"
-                            onClick={this.thirdStep}
-                        >
-                            Dalej
-                        </button>
-                    </div>
-                    <div id="form-third-step">
-                        <div id="desc">
-                            <h2>Opis</h2>
-                            <textarea
-                                value={this.state.value}
-                                name="desc"
-                                onChange={this.descChange}
-                            />
+                            <div id="price">
+                                <h2>Cena</h2>
+                                <input
+                                    type="number"
+                                    name="price"
+                                    onChange={this.priceChange}
+                                />
+                            </div>
+                            <Link to="/">
+                                <button onClick={this.postProject}>
+                                    Wyślij
+                                </button>
+                            </Link>
+                            <br />
                         </div>
-                        <div id="price">
-                            <h2>Cena</h2>
-                            <input
-                                type="number"
-                                name="price"
-                                onChange={this.priceChange}
-                            />
-                        </div>
-                        {submitButton}
-                        <br />
-                    </div>
-                </form>
-            </div>
-        );
+                    </form>
+                </div>
+            );
+        }
     }
 }
 

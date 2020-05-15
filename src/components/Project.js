@@ -4,7 +4,11 @@ import offersdata from "./offersdata.json";
 import "./test.css";
 // eslint-disable-next-line
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { getSkillsByCategoryId, getOffers } from "./Util";
+import {
+    getSkillsByCategoryId,
+    getOffers,
+    updateProjectByChosenOffer,
+} from "./Util";
 import LoginRegister from "./LoginRegister";
 class Project extends React.Component {
     constructor(props) {
@@ -16,13 +20,19 @@ class Project extends React.Component {
                 skills: this.props.location.state.data.skills,
                 desc: this.props.location.state.data.description,
                 price: this.props.location.state.data.price,
+                author_id: this.props.location.state.data.author_id,
             },
+            status_id: this.props.location.state.data.status_id,
             offers: offersdata,
             isLogged: sessionStorage.getItem("isLogged"),
+            loggedUserId: sessionStorage.getItem("userId"),
+            isOwner: null,
             loginButton: "",
         };
         this.changeLoginStatus = this.changeLoginStatus.bind(this);
         this.showhideLoginBox = this.showhideLoginBox.bind(this);
+        this.updateProjectStatus = this.updateProjectStatus.bind(this);
+        this.logout = this.logout.bind(this);
     }
     componentDidMount() {
         this.setState({
@@ -32,39 +42,81 @@ class Project extends React.Component {
                 </button>
             ),
         });
+        if (this.state.loggedUserId == this.state.project.author_id) {
+            this.setState({ isOwner: true });
+        } else {
+            this.setState({ isOwner: false });
+        }
     }
     changeLoginStatus() {
-        this.setState({ isLogged: sessionStorage.getItem("isLogged") });
+        this.setState({
+            isLogged: sessionStorage.getItem("isLogged"),
+            loggedUserId: sessionStorage.getItem("userId"),
+        });
+        if (this.state.loggedUserId == this.state.project.author_id) {
+            this.setState({ isOwner: true });
+        } else {
+            this.setState({ isOwner: false });
+        }
+    }
+    updateProjectStatus() {
+        this.setState({ status_id: 2 });
     }
     showhideLoginBox(e) {
         e.preventDefault();
         if (e.target.value == "show") {
             this.setState({
                 loginButton: (
-                    <LoginRegister changeStatus={this.changeLoginStatus} />
+                    <LoginRegister
+                        changeStatus={this.changeLoginStatus}
+                        showhideLoginBox={this.showhideLoginBox}
+                    />
+                ),
+            });
+        } else if (e.target.value == "hide") {
+            this.setState({
+                loginButton: (
+                    <button value="show" onClick={this.showhideLoginBox}>
+                        Zeby dodac oferte musisz byc zalogowany
+                    </button>
                 ),
             });
         }
-        // TODO: obsluga 'anuluj'
-        // else if(e.target.value == "hide")
+    }
+    logout() {
+        this.setState({
+            isLogged: false,
+            loginButton: (
+                <button value="show" onClick={this.showhideLoginBox}>
+                    Zeby dodac oferte musisz byc zalogowany
+                </button>
+            ),
+        });
     }
     render() {
         let addOffer;
-        if (
-            this.state.isLogged &&
-            sessionStorage.getItem("userId") != this.state.project.id
-        ) {
+        if (this.state.status_id == 2 || this.state.status_id == 3) {
+            addOffer = (
+                <p>Oferta zostala wybrana lub projekt jest zakonczony</p>
+            );
+        } else if ("true" != this.state.isLogged && !this.state.isOwner) {
             addOffer = <AddOffer project={this.state.project} />;
-        } else if (sessionStorage.getItem("userId") == this.state.project.id) {
+        } else if ("true" != this.state.isLogged && this.state.isOwner) {
             addOffer = <p>Nie mozesz dodac oferty do wlasnego projektu</p>;
         } else {
             addOffer = this.state.loginButton;
         }
         return (
             <div>
-                <Nav />
+                <Nav isLogged={this.state.isLogged} logout={this.logout} />
                 <ProjectView project={this.state.project} />
-                <OffersList projectId={this.state.project.id} />
+                <OffersList
+                    projectId={this.state.project.id}
+                    statusId={this.state.status_id}
+                    isOwner={this.state.isOwner}
+                    loggedUserId={this.state.loggedUserId}
+                    changeStatus={this.updateProjectStatus}
+                />
                 {addOffer}
             </div>
         );
@@ -87,8 +139,16 @@ class OffersList extends React.Component {
         super(props);
         this.state = {
             project_id: props.projectId,
+            status_id: props.statusId,
             offers: [],
+            isOwner: props.isOwner,
         };
+        this.chooseOffer = this.chooseOffer.bind(this);
+    }
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.isOwner !== prevState.isOwner) {
+            return { isOwner: nextProps.isOwner };
+        }
     }
     componentDidMount() {
         this.fetchOffersList();
@@ -99,9 +159,22 @@ class OffersList extends React.Component {
             offers: result,
         });
     }
+    chooseOffer(e) {
+        const isUpdated = updateProjectByChosenOffer(
+            this.state.project_id,
+            e.target.value
+        );
+
+        this.setState({
+            status_id: 2,
+        });
+        this.props.changeStatus();
+    }
     render() {
         return (
             <div>
+                <h1>{this.state.isOwner}</h1>
+                <h1>{this.state.project_id}</h1>
                 {this.state.offers.map((item) => (
                     <div key={item.id}>
                         <p>{item.user[0].login}</p>
@@ -112,8 +185,17 @@ class OffersList extends React.Component {
                         <p>{item.estimated_time}</p>
                         <p>{item.created_at}</p>
                         <p>{item.message}</p>
-
                         <p>{item.price}</p>
+                        {this.state.isOwner && this.state.status_id == 1 ? (
+                            <button
+                                value={item.offer_id}
+                                onClick={this.chooseOffer}
+                            >
+                                Wybierz
+                            </button>
+                        ) : (
+                            ""
+                        )}
                     </div>
                 ))}
             </div>
@@ -194,7 +276,11 @@ class AddOffer extends React.Component {
             alert("Wysłano")
         );
         this.setState({
-            offer: "",
+            skillsToSelect: [],
+            skillsChecked: [],
+            message: "",
+            price: 0,
+            estimated_time: 0,
         });
     }
     render() {

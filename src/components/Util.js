@@ -51,3 +51,21 @@ export function getOffers(params) {
             });
     });
 }
+export function updateProjectByChosenOffer(projectId, offerId) {
+    var body = {
+        project_id: projectId,
+        offer_id: offerId,
+    };
+    const requestOptions = {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+    };
+    fetch("http://localhost:8080/chooseoffer", requestOptions).then(
+        (response) => {
+            if (response.status == 200) {
+                return true;
+            }
+        }
+    );
+}

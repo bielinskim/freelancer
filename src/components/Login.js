@@ -143,7 +143,11 @@ class Login extends React.Component {
                             </div>
                         </form>
                         <div className="login-cancel">
-                            <button className="login-cancel-button">
+                            <button
+                                className="login-cancel-button"
+                                onClick={this.props.hideLoginRegister}
+                                value="hide"
+                            >
                                 anuluj
                             </button>
                         </div>

@@ -12,6 +12,7 @@ class LoginRegister extends React.Component {
         this.state = { loginOrRegister: "login", isLogged: false };
         this.toggleLoginRegister = this.toggleLoginRegister.bind(this);
         this.changeLoginStatus = this.changeLoginStatus.bind(this);
+        this.hideLoginRegister = this.hideLoginRegister.bind(this);
     }
     toggleLoginRegister(e) {
         this.setState({ loginOrRegister: e.target.value });
@@ -20,16 +21,25 @@ class LoginRegister extends React.Component {
         this.setState({ isLogged: true });
         this.props.changeStatus();
     }
+    hideLoginRegister(e) {
+        this.props.showhideLoginBox(e);
+    }
     render() {
         if (this.state.loginOrRegister == "login")
             return (
                 <Login
                     toggle={this.toggleLoginRegister}
                     changeStatus={this.changeLoginStatus}
+                    hideLoginRegister={this.hideLoginRegister}
                 />
             );
         else {
-            return <Register toggle={this.toggleLoginRegister} />;
+            return (
+                <Register
+                    toggle={this.toggleLoginRegister}
+                    hideLoginRegister={this.hideLoginRegister}
+                />
+            );
         }
     }
 }
