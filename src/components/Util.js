@@ -69,3 +69,22 @@ export function updateProjectByChosenOffer(projectId, offerId) {
         }
     );
 }
+export function checkIfUserAlreadyPostedOffer(userId, projectId) {
+    return new Promise((resolve) => {
+        fetch(
+            "http://localhost:8080/checkifcanpostoffer/" +
+                userId +
+                "/" +
+                projectId
+        )
+            .then((res) => res.json())
+            .then(
+                (result) => {
+                    resolve(result);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+    });
+}

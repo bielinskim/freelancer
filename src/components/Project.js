@@ -8,6 +8,7 @@ import {
     getSkillsByCategoryId,
     getOffers,
     updateProjectByChosenOffer,
+    checkIfUserAlreadyPostedOffer,
 } from "./Util";
 import LoginRegister from "./LoginRegister";
 class Project extends React.Component {
@@ -23,16 +24,17 @@ class Project extends React.Component {
                 author_id: this.props.location.state.data.author_id,
             },
             status_id: this.props.location.state.data.status_id,
-            offers: offersdata,
             isLogged: sessionStorage.getItem("isLogged"),
             loggedUserId: sessionStorage.getItem("userId"),
             isOwner: null,
             loginButton: "",
+            offerAdded: 0,
+            canPost: null,
         };
         this.changeLoginStatus = this.changeLoginStatus.bind(this);
         this.showhideLoginBox = this.showhideLoginBox.bind(this);
         this.updateProjectStatus = this.updateProjectStatus.bind(this);
-        this.logout = this.logout.bind(this);
+        this.offerAdded = this.offerAdded.bind(this);
     }
     componentDidMount() {
         this.setState({
@@ -47,20 +49,43 @@ class Project extends React.Component {
         } else {
             this.setState({ isOwner: false });
         }
+        this.checkIfUserAlreadyPostedOffer();
     }
     changeLoginStatus() {
         this.setState({
             isLogged: sessionStorage.getItem("isLogged"),
             loggedUserId: sessionStorage.getItem("userId"),
         });
+        if ("true" != sessionStorage.getItem("isLogged")) {
+            this.setState({
+                loginButton: (
+                    <button value="show" onClick={this.showhideLoginBox}>
+                        Zeby dodac oferte musisz byc zalogowany
+                    </button>
+                ),
+            });
+        }
         if (this.state.loggedUserId == this.state.project.author_id) {
             this.setState({ isOwner: true });
         } else {
             this.setState({ isOwner: false });
         }
     }
+    async checkIfUserAlreadyPostedOffer() {
+        const result = await checkIfUserAlreadyPostedOffer(
+            this.state.loggedUserId,
+            this.state.project.id
+        );
+        this.setState({ canPost: result });
+    }
     updateProjectStatus() {
         this.setState({ status_id: 2 });
+    }
+    offerAdded() {
+        this.setState({
+            offerAdded: this.state.offerAdded + 1,
+            canPost: false,
+        });
     }
     showhideLoginBox(e) {
         e.preventDefault();
@@ -83,32 +108,32 @@ class Project extends React.Component {
             });
         }
     }
-    logout() {
-        this.setState({
-            isLogged: false,
-            loginButton: (
-                <button value="show" onClick={this.showhideLoginBox}>
-                    Zeby dodac oferte musisz byc zalogowany
-                </button>
-            ),
-        });
-    }
     render() {
         let addOffer;
         if (this.state.status_id == 2 || this.state.status_id == 3) {
             addOffer = (
                 <p>Oferta zostala wybrana lub projekt jest zakonczony</p>
             );
-        } else if ("true" != this.state.isLogged && !this.state.isOwner) {
-            addOffer = <AddOffer project={this.state.project} />;
-        } else if ("true" != this.state.isLogged && this.state.isOwner) {
+        } else if (!this.state.canPost && "true" == this.state.isLogged) {
+            addOffer = <p>Dodales juz oferte</p>;
+        } else if ("true" == this.state.isLogged && !this.state.isOwner) {
+            addOffer = (
+                <AddOffer
+                    offerAdded={this.offerAdded}
+                    project={this.state.project}
+                />
+            );
+        } else if ("true" == this.state.isLogged && this.state.isOwner) {
             addOffer = <p>Nie mozesz dodac oferty do wlasnego projektu</p>;
         } else {
             addOffer = this.state.loginButton;
         }
         return (
             <div>
-                <Nav isLogged={this.state.isLogged} logout={this.logout} />
+                <Nav
+                    isLogged={this.state.isLogged}
+                    changeStatus={this.changeLoginStatus}
+                />
                 <ProjectView project={this.state.project} />
                 <OffersList
                     projectId={this.state.project.id}
@@ -116,6 +141,7 @@ class Project extends React.Component {
                     isOwner={this.state.isOwner}
                     loggedUserId={this.state.loggedUserId}
                     changeStatus={this.updateProjectStatus}
+                    offerAdded={this.state.offerAdded}
                 />
                 {addOffer}
             </div>
@@ -141,7 +167,8 @@ class OffersList extends React.Component {
             project_id: props.projectId,
             status_id: props.statusId,
             offers: [],
-            isOwner: props.isOwner,
+            isOwner: null,
+            offerAdded: 0,
         };
         this.chooseOffer = this.chooseOffer.bind(this);
     }
@@ -149,8 +176,14 @@ class OffersList extends React.Component {
         if (nextProps.isOwner !== prevState.isOwner) {
             return { isOwner: nextProps.isOwner };
         }
+        if (nextProps.offerAdded != prevState.offerAdded) {
+            return { offerAdded: nextProps.offerAdded };
+        }
     }
     componentDidMount() {
+        this.fetchOffersList();
+    }
+    componentDidUpdate() {
         this.fetchOffersList();
     }
     async fetchOffersList() {
@@ -275,13 +308,20 @@ class AddOffer extends React.Component {
         fetch("http://localhost:8080/postoffer", requestOptions).then(() =>
             alert("Wysłano")
         );
+        var checkboxes = document.getElementsByClassName(
+            "offer-skills-checkbox"
+        );
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes.item(i).checked = false;
+        }
         this.setState({
-            skillsToSelect: [],
             skillsChecked: [],
             message: "",
             price: 0,
             estimated_time: 0,
         });
+
+        this.props.offerAdded();
     }
     render() {
         return (
@@ -295,6 +335,7 @@ class AddOffer extends React.Component {
                                     onClick={this.selectSkill}
                                     type="checkbox"
                                     value={item.skill_id}
+                                    className="offer-skills-checkbox"
                                 />
                                 {item.name}
                             </div>
@@ -306,6 +347,7 @@ class AddOffer extends React.Component {
                             id="offer-message"
                             name="message"
                             onChange={this.changeState}
+                            value={this.state.message}
                         />
                     </div>
                     <div id="offer-time-container">
@@ -315,6 +357,7 @@ class AddOffer extends React.Component {
                             type="number"
                             name="time"
                             onChange={this.changeState}
+                            value={this.state.estimated_time}
                         />
                     </div>
                     <div id="offer-price-container">
@@ -324,6 +367,7 @@ class AddOffer extends React.Component {
                             type="number"
                             name="price"
                             onChange={this.changeState}
+                            value={this.state.price}
                         />
                     </div>
                     <button type="submit">Wyślij</button>

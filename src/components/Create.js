@@ -148,17 +148,23 @@ class Create extends React.Component {
         });
     }
     render() {
-        if ("true" != this.state.isLogged) {
+        if ("true" != sessionStorage.getItem("isLogged")) {
             return (
                 <div>
-                    <Nav isLogged={this.state.isLogged} logout={this.logout} />
+                    <Nav
+                        isLogged={this.state.isLogged}
+                        changeStatus={this.changeLoginStatus}
+                    />
                     {this.state.loginButton}
                 </div>
             );
         } else {
             return (
                 <div>
-                    <Nav isLogged={this.state.isLogged} logout={this.logout} />
+                    <Nav
+                        isLogged={this.state.isLogged}
+                        changeStatus={this.changeLoginStatus}
+                    />
                     <form>
                         <div id="form-first-step">
                             <h2>Kategorie</h2>
