@@ -48,8 +48,13 @@ class Register extends React.Component {
         fetch("http://localhost:8080/register", request)
             .then((result) => {
                 // status: 200 jesli ok
+                if (result.status == 200) {
+                    alert("Konto zostalo utworzone");
+                    this.props.hideLoginRegister();
+                }
             })
             .catch((error) => {
+                alert("Konto nie zostalo utworzone");
                 console.error("Error:", error);
             });
         this.setState({

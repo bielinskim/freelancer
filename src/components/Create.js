@@ -115,6 +115,9 @@ class Create extends React.Component {
             isLogged: sessionStorage.getItem("isLogged"),
             userId: sessionStorage.getItem("userId"),
         });
+        if ("true" != sessionStorage.getItem("isLogged")) {
+            this.logout();
+        }
     }
     showhideLoginBox(e) {
         //e.preventDefault();

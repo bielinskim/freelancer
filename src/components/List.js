@@ -13,6 +13,7 @@ class List extends React.Component {
             data: [],
         };
         this.browseProjects = this.browseProjects.bind(this);
+        this.changeLoginStatus = this.changeLoginStatus.bind(this);
     }
 
     componentDidMount() {
@@ -32,10 +33,16 @@ class List extends React.Component {
                 console.error("Error:", error);
             });
     }
+    changeLoginStatus() {
+        this.setState({ isLogged: sessionStorage.getItem("isLogged") });
+    }
     render() {
         return (
             <div>
-                <Nav />
+                <Nav
+                    isLogged={this.state.isLogged}
+                    changeStatus={this.changeLoginStatus}
+                />
                 {this.state.data.map((item) => (
                     <Link
                         className="test"

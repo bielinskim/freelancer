@@ -15,10 +15,12 @@ class Browse extends React.Component {
             skillsChecked: [],
             error: null,
             isLoaded: false,
+            isLogged: null,
         };
         this.secondStep = this.secondStep.bind(this);
         this.selectCategory = this.selectCategory.bind(this);
         this.selectSkill = this.selectSkill.bind(this);
+        this.changeLoginStatus = this.changeLoginStatus.bind(this);
     }
     async componentDidMount() {
         const result = await getCategories();
@@ -58,10 +60,16 @@ class Browse extends React.Component {
         //event.preventDefault();
         alert(this.state.skillsChecked);
     }
+    changeLoginStatus() {
+        this.setState({ isLogged: sessionStorage.getItem("isLogged") });
+    }
     render() {
         return (
             <div>
-                <Nav />
+                <Nav
+                    isLogged={this.state.isLogged}
+                    changeStatus={this.changeLoginStatus}
+                />
                 <form>
                     <div id="form-first-step">
                         <h2>Kategorie</h2>

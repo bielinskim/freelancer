@@ -6,12 +6,16 @@ import LoginRegister from "./LoginRegister";
 class Navigation extends React.Component {
     constructor(props) {
         super(props);
+        this.changeLoginStatus = this.changeLoginStatus.bind(this);
+    }
+    changeLoginStatus() {
+        this.props.changeStatus();
     }
     render() {
         return (
             <div>
                 <Link to="/">Home</Link>
-                <LoginLogout nav={this.props} />
+                <LoginLogout changeStatus={this.changeLoginStatus} />
             </div>
         );
     }
@@ -20,7 +24,7 @@ class LoginLogout extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loginModal: <div></div>,
+            loginModal: "",
         };
         this.logout = this.logout.bind(this);
         this.login = this.login.bind(this);
@@ -30,13 +34,14 @@ class LoginLogout extends React.Component {
     logout() {
         sessionStorage.setItem("isLogged", false);
         sessionStorage.setItem("userId", null);
-        this.props.nav.changeStatus();
+        this.props.changeStatus();
+        this.setState({ loginModal: "" });
     }
     changeLoginStatus() {
-        this.props.nav.changeStatus();
+        this.props.changeStatus();
     }
-    showhideLoginBox() {
-        this.setState({ loginModal: <div></div> });
+    showhideLoginBox(e) {
+        this.setState({ loginModal: "" });
     }
     login() {
         this.setState({

@@ -35,6 +35,7 @@ class Project extends React.Component {
         this.showhideLoginBox = this.showhideLoginBox.bind(this);
         this.updateProjectStatus = this.updateProjectStatus.bind(this);
         this.offerAdded = this.offerAdded.bind(this);
+        this.logout = this.logout.bind(this);
     }
     componentDidMount() {
         this.setState({
@@ -57,13 +58,7 @@ class Project extends React.Component {
             loggedUserId: sessionStorage.getItem("userId"),
         });
         if ("true" != sessionStorage.getItem("isLogged")) {
-            this.setState({
-                loginButton: (
-                    <button value="show" onClick={this.showhideLoginBox}>
-                        Zeby dodac oferte musisz byc zalogowany
-                    </button>
-                ),
-            });
+            this.logout();
         }
         if (this.state.loggedUserId == this.state.project.author_id) {
             this.setState({ isOwner: true });
@@ -107,6 +102,15 @@ class Project extends React.Component {
                 ),
             });
         }
+    }
+    logout() {
+        this.setState({
+            loginButton: (
+                <button value="show" onClick={this.showhideLoginBox}>
+                    Zeby dodac oferte musisz byc zalogowany
+                </button>
+            ),
+        });
     }
     render() {
         let addOffer;
