@@ -1,6 +1,5 @@
 import React from "react";
 import Nav from "./Nav";
-import offersdata from "./offersdata.json";
 import "./test.css";
 // eslint-disable-next-line
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";

@@ -15,6 +15,21 @@ class Navigation extends React.Component {
         return (
             <div>
                 <Link to="/">Home</Link>
+                {sessionStorage.getItem("isLogged") == "true" && (
+                    <Link to="/myprojects">Moje projekty</Link>
+                )}
+                {sessionStorage.getItem("isLogged") == "true" && (
+                    <Link to="/projectstodo">Do zrobienia</Link>
+                )}
+                {sessionStorage.getItem("roleId") == "2" && (
+                    <Link to="/employee">Panel pracownika</Link>
+                )}
+                {sessionStorage.getItem("roleId") == "1" && (
+                    <Link to="/employee">Panel pracownika</Link>
+                )}
+                {sessionStorage.getItem("roleId") == "1" && (
+                    <Link to="/admin">Panel admina</Link>
+                )}
                 <LoginLogout changeStatus={this.changeLoginStatus} />
             </div>
         );
@@ -34,6 +49,7 @@ class LoginLogout extends React.Component {
     logout() {
         sessionStorage.setItem("isLogged", false);
         sessionStorage.setItem("userId", null);
+        sessionStorage.setItem("roleId", null);
         this.props.changeStatus();
         this.setState({ loginModal: "" });
     }

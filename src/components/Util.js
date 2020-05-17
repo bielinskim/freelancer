@@ -51,6 +51,48 @@ export function getOffers(params) {
             });
     });
 }
+export function getProjectsByDate(period) {
+    return new Promise((resolve) => {
+        fetch("http://localhost:8080/getprojectsbydate/" + period)
+            .then((res) => res.json())
+            .then(
+                (result) => {
+                    resolve(result);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+    });
+}
+export function getMyProjects(userId) {
+    return new Promise((resolve) => {
+        fetch("http://localhost:8080/getmyprojects/" + userId)
+            .then((res) => res.json())
+            .then(
+                (result) => {
+                    resolve(result);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+    });
+}
+export function getProjectsToDo(userId) {
+    return new Promise((resolve) => {
+        fetch("http://localhost:8080/getprojectstodo/" + userId)
+            .then((res) => res.json())
+            .then(
+                (result) => {
+                    resolve(result);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+    });
+}
 export function updateProjectByChosenOffer(projectId, offerId) {
     var body = {
         project_id: projectId,
@@ -62,6 +104,23 @@ export function updateProjectByChosenOffer(projectId, offerId) {
         body: JSON.stringify(body),
     };
     fetch("http://localhost:8080/chooseoffer", requestOptions).then(
+        (response) => {
+            if (response.status == 200) {
+                return true;
+            }
+        }
+    );
+}
+export function setStatusToDone(projectId) {
+    var body = {
+        project_id: projectId,
+    };
+    const requestOptions = {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+    };
+    fetch("http://localhost:8080/setstatustodone", requestOptions).then(
         (response) => {
             if (response.status == 200) {
                 return true;
@@ -86,5 +145,19 @@ export function checkIfUserAlreadyPostedOffer(userId, projectId) {
                     console.log(error);
                 }
             );
+    });
+}
+export function deleteProject(projectId) {
+    const requestOptions = {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+    };
+    fetch(
+        "http://localhost:8080/deleteproject/" + projectId,
+        requestOptions
+    ).then((response) => {
+        if (response.status == 200) {
+            return true;
+        }
     });
 }
