@@ -65,6 +65,20 @@ export function getProjectsByDate(period) {
             );
     });
 }
+export function getOffersByDate(period) {
+    return new Promise((resolve) => {
+        fetch("http://localhost:8080/getoffersbydate/" + period)
+            .then((res) => res.json())
+            .then(
+                (result) => {
+                    resolve(result);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+    });
+}
 export function getMyProjects(userId) {
     return new Promise((resolve) => {
         fetch("http://localhost:8080/getmyprojects/" + userId)
@@ -160,4 +174,17 @@ export function deleteProject(projectId) {
             return true;
         }
     });
+}
+export function deleteOffer(offerId) {
+    const requestOptions = {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+    };
+    fetch("http://localhost:8080/deleteoffer/" + offerId, requestOptions).then(
+        (response) => {
+            if (response.status == 200) {
+                return true;
+            }
+        }
+    );
 }

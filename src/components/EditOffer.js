@@ -5,13 +5,13 @@ import { getSkillsByCategoryId } from "./Util";
 
 import "./styles.css";
 
-class EditProject extends React.Component {
+class EditOffer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             isLogged: sessionStorage.getItem("isLogged"),
             userId: sessionStorage.getItem("isLogged"),
-            project: this.props.location.state.project,
+            offer: this.props.location.state.offer,
             skillsToSelect: [],
             skillsChecked: [],
             update: 0,
@@ -32,7 +32,7 @@ class EditProject extends React.Component {
         });
     }
     async skillsToSelect() {
-        const res = await getSkillsByCategoryId(this.state.project.category_id);
+        const res = await getSkillsByCategoryId(this.state.offer.category_id);
 
         this.setState({
             skillsToSelect: res,
@@ -45,8 +45,8 @@ class EditProject extends React.Component {
             "edit-skills-checkbox"
         );
         for (var i = 0; i < checkboxes.length; i++) {
-            if ((checkboxes.item(i).name = this.state.project.skills[i])) {
-                skills_id.push(this.state.project.skills[i].skill_id);
+            if ((checkboxes.item(i).name = this.state.offer.skills[i])) {
+                skills_id.push(this.state.offer.skills[i].skill_id);
                 checkboxes.item(i).checked = true;
             }
         }
@@ -84,40 +84,40 @@ class EditProject extends React.Component {
         this.clearCheckboxes();
     }
     handleChange(e) {
-        var project = this.state.project;
+        var offer = this.state.offer;
         switch (e.target.id) {
             case "edit-category":
-                project.category_id = e.target.value;
+                offer.category_id = e.target.value;
                 this.onChangeCategory(e.target.value);
                 break;
-            case "edit-desc":
-                project.description = e.target.value;
+            case "edit-message":
+                offer.message = e.target.value;
+                break;
+            case "edit-time":
+                offer.estimated_time = e.target.value;
                 break;
             case "edit-price":
-                project.price = e.target.value;
-                break;
-            case "edit-status":
-                project.status_id = e.target.value;
+                offer.price = e.target.value;
                 break;
         }
-        this.setState({ project: project });
+        this.setState({ offer: offer });
     }
     handleSubmit(event) {
         event.preventDefault();
         var body = {
-            project_id: this.state.project.project_id,
-            category_id: this.state.project.category_id,
+            offer_id: this.state.offer.offer_id,
+            category_id: this.state.offer.category_id,
             skills: this.state.skillsChecked,
-            description: this.state.project.description,
-            price: this.state.project.price,
-            status_id: this.state.project.status_id,
+            message: this.state.offer.message,
+            price: this.state.offer.price,
+            estimated_time: this.state.offer.estimated_time,
         };
         const requestOptions = {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
         };
-        fetch("http://localhost:8080/editproject", requestOptions).then(() =>
+        fetch("http://localhost:8080/editoffer", requestOptions).then(() =>
             alert("Zedytowano")
         );
     }
@@ -128,13 +128,13 @@ class EditProject extends React.Component {
                     isLogged={this.state.isLogged}
                     changeStatus={this.changeLoginStatus}
                 />
-                <Link to="/projectsmanager">Powrót</Link>
+                <Link to="/offersmanager">Powrót</Link>
                 <br />
                 <form onSubmit={this.handleSubmit}>
                     <input
                         id="edit-category"
                         type="number"
-                        value={this.state.project.category_id}
+                        value={this.state.offer.category_id}
                         onChange={this.handleChange}
                     ></input>
                     <br />
@@ -152,24 +152,26 @@ class EditProject extends React.Component {
                         </div>
                     ))}
                     <textarea
-                        id="edit-desc"
+                        id="edit-message"
                         rows="25"
                         cols="50"
-                        value={this.state.project.description}
+                        value={this.state.offer.message}
                         onChange={this.handleChange}
                     />
                     <br />
                     <input
-                        id="edit-price"
+                        id="edit-time"
                         type="number"
-                        value={this.state.project.price}
+                        value={this.state.offer.estimated_time}
                         onChange={this.handleChange}
                     ></input>
                     <br />
+
                     <input
-                        id="edit-status"
+                        id="edit-price"
                         type="number"
-                        value={this.state.project.status_id}
+                        value={this.state.offer.price}
+                        onChange={this.handleChange}
                     ></input>
                     <br />
                     <button type="submit">Wyślij</button>
@@ -179,4 +181,4 @@ class EditProject extends React.Component {
         );
     }
 }
-export default EditProject;
+export default EditOffer;

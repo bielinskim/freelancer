@@ -21,11 +21,18 @@ class Navigation extends React.Component {
                 {sessionStorage.getItem("isLogged") == "true" && (
                     <Link to="/projectstodo">Do zrobienia</Link>
                 )}
+                Panel pracownika:
                 {sessionStorage.getItem("roleId") == "2" && (
-                    <Link to="/employee">Panel pracownika</Link>
+                    <Link to="/projectsmanager">Projekty</Link>
                 )}
                 {sessionStorage.getItem("roleId") == "1" && (
-                    <Link to="/employee">Panel pracownika</Link>
+                    <Link to="/projectsmanager">Projekty</Link>
+                )}
+                {sessionStorage.getItem("roleId") == "2" && (
+                    <Link to="/offersmanager">Oferty</Link>
+                )}
+                {sessionStorage.getItem("roleId") == "1" && (
+                    <Link to="/offersmanager">Oferty</Link>
                 )}
                 {sessionStorage.getItem("roleId") == "1" && (
                     <Link to="/admin">Panel admina</Link>

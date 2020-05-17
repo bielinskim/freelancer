@@ -1,28 +1,28 @@
 import React from "react";
 import Nav from "./Nav";
-import { getProjectsByDate, deleteProject } from "./Util";
+import { getOffersByDate, deleteOffer } from "./Util";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./styles.css";
 
-class Employee extends React.Component {
+class OffersManager extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             isLogged: sessionStorage.getItem("isLogged"),
             userId: sessionStorage.getItem("isLogged"),
-            projects: [],
+            offers: [],
             update: 0,
             periodOfData: 9999,
         };
         this.changeLoginStatus = this.changeLoginStatus.bind(this);
         this.setPeriodOfData = this.setPeriodOfData.bind(this);
-        this.deleteProject = this.deleteProject.bind(this);
+        this.deleteOffer = this.deleteOffer.bind(this);
     }
     componentDidMount() {
-        this.getProjectsByDate();
+        this.getOffersByDate();
     }
     componentDidUpdate() {
-        this.getProjectsByDate();
+        this.getOffersByDate();
     }
     changeLoginStatus() {
         this.setState({
@@ -31,26 +31,26 @@ class Employee extends React.Component {
         });
         if (sessionStorage.getItem("userId") == "null") {
             this.setState({
-                projects: [],
+                offers: [],
             });
         }
     }
     setPeriodOfData(e) {
         this.setState({ periodOfData: e.target.value });
     }
-    async deleteProject(e) {
-        await deleteProject(e.target.value);
+    async deleteOffer(e) {
+        await deleteOffer(e.target.value);
         this.setState({
             update: this.state.update + 1,
         });
     }
-    async getProjectsByDate() {
+    async getOffersByDate() {
         if (sessionStorage.getItem("userId") != "null") {
-            var result = await getProjectsByDate(this.state.periodOfData);
+            var result = await getOffersByDate(this.state.periodOfData);
         }
         if (sessionStorage.getItem("userId") != "null") {
             this.setState({
-                projects: result,
+                offers: result,
             });
         }
     }
@@ -77,28 +77,29 @@ class Employee extends React.Component {
                     Wszystkie
                 </button>
                 <ul>
-                    {this.state.projects.map((project) => (
+                    {this.state.offers.map((offer) => (
                         <li>
-                            <p>{project.project_id}</p>
-                            <p>{project.category_id}</p>
+                            <p>{offer.offer_id}</p>
+                            <p>{offer.category_id}</p>
 
-                            {project.skills.map((skill) => (
+                            {offer.skills.map((skill) => (
                                 <p>{skill.name}</p>
                             ))}
-                            <p>{project.description}</p>
-                            <p>{project.price}</p>
+                            <p>{offer.message}</p>
+                            <p>{offer.estimated_time}</p>
+                            <p>{offer.price}</p>
                             <button
-                                value={project.project_id}
-                                onClick={this.deleteProject}
+                                value={offer.offer_id}
+                                onClick={this.deleteOffer}
                             >
                                 Usuń
                             </button>
 
                             <Link
                                 to={{
-                                    pathname: "/editproject",
+                                    pathname: "/editoffer",
                                     state: {
-                                        project: project,
+                                        offer: offer,
                                     },
                                 }}
                             >
@@ -113,4 +114,4 @@ class Employee extends React.Component {
         );
     }
 }
-export default Employee;
+export default OffersManager;
