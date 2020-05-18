@@ -1,5 +1,37 @@
 import React from "react";
 
+export function getRoles() {
+    return new Promise((resolve) => {
+        fetch("http://localhost:8080/roles/")
+            .then((res) => res.json())
+            .then(
+                (result) => {
+                    resolve(result);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+    });
+}
+
+export function getUsers() {
+    return new Promise((resolve) => {
+        fetch("http://localhost:8080/users/")
+            .then((res) => res.json())
+            .then(
+                (result) => {
+                    resolve(result);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            )
+            .then((users) => {
+                return users;
+            });
+    });
+}
 export function getSkillsByCategoryId(params) {
     return new Promise((resolve) => {
         fetch("http://localhost:8080/skills/" + params)
@@ -160,6 +192,19 @@ export function checkIfUserAlreadyPostedOffer(userId, projectId) {
                 }
             );
     });
+}
+export function deleteUser(userId) {
+    const requestOptions = {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+    };
+    fetch("http://localhost:8080/deleteuser/" + userId, requestOptions).then(
+        (response) => {
+            if (response.status == 200) {
+                return true;
+            }
+        }
+    );
 }
 export function deleteProject(projectId) {
     const requestOptions = {

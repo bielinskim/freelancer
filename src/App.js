@@ -12,6 +12,8 @@ import OffersManager from "./components/OffersManager.js";
 import Admin from "./components/Admin.js";
 import EditProject from "./components/EditProject.js";
 import EditOffer from "./components/EditOffer.js";
+import EditUser from "./components/EditUser.js";
+import AddUser from "./components/AddUser.js";
 class App extends React.Component {
     render() {
         return (
@@ -32,6 +34,8 @@ class App extends React.Component {
                     <Route path="/editproject" component={EditProject} />
                     <Route path="/editoffer" component={EditOffer} />
                     <Route path="/admin" component={Admin} />
+                    <Route path="/edituser" component={EditUser} />
+                    <Route path="/adduser" component={AddUser} />
                 </Switch>
             </Router>
         );
