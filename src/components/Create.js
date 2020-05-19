@@ -6,6 +6,8 @@ import Icon from "../icons/Icons";
 import LoginRegister from "./LoginRegister";
 import { getSkillsByCategoryId, getCategories } from "./Util";
 import "./styles.css";
+import "./checkbox.css";
+import "../icons/icons.css";
 
 class Create extends React.Component {
     constructor(props) {
@@ -23,6 +25,7 @@ class Create extends React.Component {
             isLogged: sessionStorage.getItem("isLogged"),
             userId: sessionStorage.getItem("userId"),
             loginButton: "",
+            previousTarget: null,
         };
         this.secondStep = this.secondStep.bind(this);
         this.thirdStep = this.thirdStep.bind(this);
@@ -61,6 +64,13 @@ class Create extends React.Component {
         document.getElementById("form-third-step").style.display = "block";
     }
     selectCategory(e) {
+        if (this.state.previousTarget != null) {
+            this.state.previousTarget.classList.remove(
+                "category-container-active"
+            );
+        }
+        e.currentTarget.classList.add("category-container-active");
+        this.setState({ previousTarget: e.currentTarget });
         this.setState({
             categoryChecked: e.currentTarget.getAttribute("category_id"),
         });
@@ -153,92 +163,115 @@ class Create extends React.Component {
     render() {
         if ("true" != sessionStorage.getItem("isLogged")) {
             return (
-                <div>
-                    <Nav
-                        isLogged={this.state.isLogged}
-                        changeStatus={this.changeLoginStatus}
-                    />
-                    {this.state.loginButton}
+                <div className="global-background">
+                    <div className="global-content">
+                        <Nav
+                            isLogged={this.state.isLogged}
+                            changeStatus={this.changeLoginStatus}
+                        />
+                        {this.state.loginButton}
+                    </div>
                 </div>
             );
         } else {
             return (
-                <div>
-                    <Nav
-                        isLogged={this.state.isLogged}
-                        changeStatus={this.changeLoginStatus}
-                    />
-                    <form>
-                        <div id="form-first-step">
-                            <h2>Kategorie</h2>
-                            {this.state.categories.map((item) => (
-                                <label key={item.category_id}>
-                                    <div
+                <div className="global-background">
+                    <div className="global-content">
+                        <Nav
+                            isLogged={this.state.isLogged}
+                            changeStatus={this.changeLoginStatus}
+                        />
+                        <form>
+                            <div id="form-first-step">
+                                <h1>Wybierz kategorie:</h1>
+                                {this.state.categories.map((item) => (
+                                    <label
+                                        className="category-container"
                                         key={item.category_id}
-                                        category_id={item.category_id}
-                                        onClick={this.selectCategory}
                                     >
-                                        <Icon icon={item.icon} />
-                                    </div>
-                                    {item.name}
-                                </label>
-                            ))}
-                            <br />
-                            <button
-                                id="second-step-button"
-                                type="button"
-                                onClick={this.secondStep}
-                            >
-                                Dalej
-                            </button>
-                        </div>
-                        <div id="form-second-step" style={{ display: "none" }}>
-                            <h2>Umiejetnosci</h2>
-                            {this.state.skills.map((item) => (
-                                <div key={item.skill_id}>
-                                    <input
-                                        key={item.skill_id}
-                                        onClick={this.selectSkill}
-                                        type="checkbox"
-                                        value={item.skill_id}
-                                    />
-                                    {item.name}
-                                </div>
-                            ))}
-                            <br />
-                            <button
-                                id="third-step-button"
-                                type="button"
-                                onClick={this.thirdStep}
-                            >
-                                Dalej
-                            </button>
-                        </div>
-                        <div id="form-third-step" style={{ display: "none" }}>
-                            <div id="desc">
-                                <h2>Opis</h2>
-                                <textarea
-                                    value={this.state.value}
-                                    name="desc"
-                                    onChange={this.descChange}
-                                />
-                            </div>
-                            <div id="price">
-                                <h2>Cena</h2>
-                                <input
-                                    type="number"
-                                    name="price"
-                                    onChange={this.priceChange}
-                                />
-                            </div>
-                            <Link to="/">
-                                <button onClick={this.postProject}>
-                                    Wyślij
+                                        <div
+                                            className="category-icon"
+                                            key={item.category_id}
+                                            category_id={item.category_id}
+                                            onClick={this.selectCategory}
+                                        >
+                                            <Icon icon={item.icon} />
+                                        </div>
+                                        <p>{item.name}</p>
+                                    </label>
+                                ))}
+                                <br />
+                                <button
+                                    id="second-step-button"
+                                    className="global-button form-button"
+                                    type="button"
+                                    onClick={this.secondStep}
+                                >
+                                    Dalej
                                 </button>
-                            </Link>
-                            <br />
-                        </div>
-                    </form>
+                            </div>
+                            <div
+                                id="form-second-step"
+                                style={{ display: "none" }}
+                            >
+                                <h1>Wybierz wymagane umiejętności:</h1>
+                                {this.state.skills.map((item) => (
+                                    <label class="container">
+                                        {item.name}
+                                        <input
+                                            key={item.skill_id}
+                                            onClick={this.selectSkill}
+                                            type="checkbox"
+                                            value={item.skill_id}
+                                        />
+                                        <span class="checkmark"></span>
+                                    </label>
+                                ))}
+                                <br />
+                                <button
+                                    id="third-step-button"
+                                    className="global-button form-button"
+                                    type="button"
+                                    onClick={this.thirdStep}
+                                >
+                                    Dalej
+                                </button>
+                            </div>
+                            <div
+                                id="form-third-step"
+                                style={{ display: "none" }}
+                            >
+                                <div id="desc">
+                                    <h2>Opis</h2>
+                                    <textarea
+                                        value={this.state.value}
+                                        name="desc"
+                                        onChange={this.descChange}
+                                        rows="20"
+                                        cols="50"
+                                    />
+                                </div>
+                                <div id="price">
+                                    <h2>Cena</h2>
+                                    <input
+                                        type="number"
+                                        name="price"
+                                        onChange={this.priceChange}
+                                    />
+                                    PLN
+                                </div>
+                                <Link to="/">
+                                    <button
+                                        className="global-button form-button"
+                                        onClick={this.postProject}
+                                    >
+                                        Wyślij
+                                    </button>
+                                </Link>
+                                <br />
+                            </div>
+                        </form>
+                    </div>
                 </div>
             );
         }

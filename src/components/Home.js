@@ -1,7 +1,6 @@
 import React from "react";
 // eslint-disable-next-line
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import "./styles.css";
 import Icon from "../icons/Icons";
 import Nav from "./Nav";
 
@@ -18,30 +17,29 @@ class Home extends React.Component {
     }
     render() {
         return (
-            <div>
-                <style>
-                    @import
-                    url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
-                </style>
-                <h2>Home</h2>
-                <Nav
-                    isLogged={this.state.isLogged}
-                    changeStatus={this.changeLoginStatus}
-                />
-                <div className="home-select-box">
-                    <Link to="/browse">
-                        <div className="home-item-container">
-                            <Icon icon="search" />
-                            <p>Szukaj</p>
-                        </div>
-                    </Link>
-                    <div className="home-item-separ"></div>
-                    <Link to="/create">
-                        <div className="home-item-container">
-                            <Icon icon="create" />
-                            <p>Stwórz</p>
-                        </div>
-                    </Link>
+            <div className="home-background">
+                <div className="home-content">
+                    <Nav
+                        isLogged={this.state.isLogged}
+                        changeStatus={this.changeLoginStatus}
+                    />
+                    <div className="home-desc-container">
+                        <h1 className="home-title-title">
+                            <b>Usługi</b> freelancerskie.
+                        </h1>
+                        <p className="home-title-desc">
+                            Znajdź lub zleć pracę.
+                        </p>
+                    </div>
+                    <div className="home-button-container">
+                        <Link to="/browse">
+                            <button className="home-button">Znajdź</button>
+                        </Link>
+                        <span></span>
+                        <Link to="/create">
+                            <button className="home-button">Zleć</button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         );

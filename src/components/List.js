@@ -1,6 +1,5 @@
 import React from "react";
 import Nav from "./Nav";
-import "./test.css";
 // eslint-disable-next-line
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -38,32 +37,34 @@ class List extends React.Component {
     }
     render() {
         return (
-            <div>
-                <Nav
-                    isLogged={this.state.isLogged}
-                    changeStatus={this.changeLoginStatus}
-                />
-                {this.state.data.map((item) => (
-                    <Link
-                        className="test"
-                        to={{
-                            pathname: "/project",
-                            state: {
-                                data: item,
-                            },
-                        }}
-                    >
-                        <p>{item.project_id}</p>
-                        <p>{item.category_id}</p>
+            <div className="global-background">
+                <div className="global-content">
+                    <Nav
+                        isLogged={this.state.isLogged}
+                        changeStatus={this.changeLoginStatus}
+                    />
+                    {this.state.data.map((item) => (
+                        <Link
+                            className="list-project"
+                            to={{
+                                pathname: "/project",
+                                state: {
+                                    data: item,
+                                },
+                            }}
+                        >
+                            <p>{item.project_id}</p>
+                            <p>{item.category_id}</p>
 
-                        {item.skills.map((skill) => (
-                            <p>{skill.name}</p>
-                        ))}
-                        <p>{item.description}</p>
-                        <p>{item.price}</p>
-                        <br />
-                    </Link>
-                ))}
+                            {item.skills.map((skill) => (
+                                <p>{skill.name}</p>
+                            ))}
+                            <p>{item.description}</p>
+                            <p>{item.price}</p>
+                            <br />
+                        </Link>
+                    ))}
+                </div>
             </div>
         );
     }

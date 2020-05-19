@@ -4,7 +4,9 @@ import Nav from "./Nav";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Icon from "../icons/Icons";
 import { getSkillsByCategoryId, getCategories } from "./Util";
-
+import "./styles.css";
+import "./checkbox.css";
+import "../icons/icons.css";
 class Browse extends React.Component {
     constructor(props) {
         super(props);
@@ -16,6 +18,7 @@ class Browse extends React.Component {
             error: null,
             isLoaded: false,
             isLogged: null,
+            previousTarget: null,
         };
         this.secondStep = this.secondStep.bind(this);
         this.selectCategory = this.selectCategory.bind(this);
@@ -38,6 +41,13 @@ class Browse extends React.Component {
         document.getElementById("form-second-step").style.display = "block";
     }
     selectCategory(e) {
+        if (this.state.previousTarget != null) {
+            this.state.previousTarget.classList.remove(
+                "category-container-active"
+            );
+        }
+        e.currentTarget.classList.add("category-container-active");
+        this.setState({ previousTarget: e.currentTarget });
         this.setState({
             categoryChecked: e.currentTarget.getAttribute("category_id"),
         });
@@ -65,62 +75,72 @@ class Browse extends React.Component {
     }
     render() {
         return (
-            <div>
-                <Nav
-                    isLogged={this.state.isLogged}
-                    changeStatus={this.changeLoginStatus}
-                />
-                <form>
-                    <div id="form-first-step">
-                        <h2>Kategorie</h2>
-                        {this.state.categories.map((item) => (
-                            <label key={item.category_id}>
-                                <div
+            <div className="global-background">
+                <div className="global-content">
+                    <Nav
+                        isLogged={this.state.isLogged}
+                        changeStatus={this.changeLoginStatus}
+                    />
+                    <form>
+                        <div id="form-first-step">
+                            <h1>Wybierz kategorie:</h1>
+                            {this.state.categories.map((item) => (
+                                <label
+                                    className="category-container"
                                     key={item.category_id}
-                                    category_id={item.category_id}
-                                    onClick={this.selectCategory}
                                 >
-                                    <Icon icon={item.icon} />
-                                </div>
-                                {item.name}
-                            </label>
-                        ))}
-                        <br />
-                        <button
-                            id="second-step-button"
-                            type="button"
-                            onClick={this.secondStep}
-                        >
-                            Dalej
-                        </button>
-                    </div>
-                    <div id="form-second-step">
-                        <h2>Umiejetnosci</h2>
-                        {this.state.skills.map((item) => (
-                            <div>
-                                <input
-                                    key={item.skill_id}
-                                    onClick={this.selectSkill}
-                                    type="checkbox"
-                                    value={item.skill_id}
-                                />
-                                {item.name}
-                            </div>
-                        ))}
-                        <br />
-                        <Link
-                            to={{
-                                pathname: "/list",
-                                state: {
-                                    category: this.state.categoryChecked,
-                                    skills: this.state.skillsChecked,
-                                },
-                            }}
-                        >
-                            Szukaj
-                        </Link>
-                    </div>
-                </form>
+                                    <div
+                                        className="category-icon"
+                                        key={item.category_id}
+                                        category_id={item.category_id}
+                                        onClick={this.selectCategory}
+                                    >
+                                        <Icon icon={item.icon} />
+                                    </div>
+                                    <p>{item.name}</p>
+                                </label>
+                            ))}
+                            <br />
+                            <button
+                                id="second-step-button"
+                                className="global-button form-button"
+                                type="button"
+                                onClick={this.secondStep}
+                            >
+                                Dalej
+                            </button>
+                        </div>
+                        <div id="form-second-step">
+                            <h1>Wybierz umiejętności:</h1>
+                            {this.state.skills.map((item) => (
+                                <label class="container">
+                                    {item.name}
+                                    <input
+                                        key={item.skill_id}
+                                        onClick={this.selectSkill}
+                                        type="checkbox"
+                                        value={item.skill_id}
+                                    />
+                                    <span class="checkmark"></span>
+                                </label>
+                            ))}
+                            <br />
+                            <Link
+                                to={{
+                                    pathname: "/list",
+                                    state: {
+                                        category: this.state.categoryChecked,
+                                        skills: this.state.skillsChecked,
+                                    },
+                                }}
+                            >
+                                <button className="global-button form-button">
+                                    Szukaj
+                                </button>
+                            </Link>
+                        </div>
+                    </form>
+                </div>
             </div>
         );
     }
