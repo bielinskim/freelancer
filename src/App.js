@@ -14,31 +14,29 @@ import EditProject from "./components/EditProject.js";
 import EditOffer from "./components/EditOffer.js";
 import EditUser from "./components/EditUser.js";
 import AddUser from "./components/AddUser.js";
+
 class App extends React.Component {
-    render() {
-        return (
-            <Router>
-                <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route path="/create" component={Create} />
-                    <Route path="/browse" component={Browse} />
-                    <Route path="/list" component={List} />
-                    <Route path="/project" component={Project} />
-                    <Route path="/myprojects" component={MyProjects} />
-                    <Route path="/projectstodo" component={ProjectsToDo} />
-                    <Route
-                        path="/projectsmanager"
-                        component={ProjectsManager}
-                    />
-                    <Route path="/offersmanager" component={OffersManager} />
-                    <Route path="/editproject" component={EditProject} />
-                    <Route path="/editoffer" component={EditOffer} />
-                    <Route path="/admin" component={Admin} />
-                    <Route path="/edituser" component={EditUser} />
-                    <Route path="/adduser" component={AddUser} />
-                </Switch>
-            </Router>
-        );
-    }
+  render() {
+    return (
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/create" component={Create} />
+          <Route path="/browse" component={Browse} />
+          <Route path="/list" component={List} />
+          <Route path="/project" component={Project} />
+          <Route path="/myprojects" component={MyProjects} />
+          <Route path="/projectstodo" component={ProjectsToDo} />
+          <Route path="/projectsmanager" component={ProjectsManager} />
+          <Route path="/offersmanager" component={OffersManager} />
+          <Route path="/editproject" component={EditProject} />
+          <Route path="/editoffer" component={EditOffer} />
+          <Route path="/admin" component={Admin} />
+          <Route path="/edituser" component={EditUser} />
+          <Route path="/adduser" component={AddUser} />
+        </Switch>
+      </Router>
+    );
+  }
 }
 export default App;
