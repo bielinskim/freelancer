@@ -233,9 +233,6 @@ class OffersList extends React.Component {
     componentDidMount() {
         this.fetchOffersList();
     }
-    componentDidUpdate() {
-        this.fetchOffersList();
-    }
     async fetchOffersList() {
         const result = await getOffers(this.state.project_id);
         this.setState({

@@ -16,9 +16,6 @@ class ProjectsToDo extends React.Component {
     componentDidMount() {
         this.getProjectsToDo();
     }
-    componentDidUpdate() {
-        this.getProjectsToDo();
-    }
     changeLoginStatus() {
         this.setState({
             isLogged: sessionStorage.getItem("isLogged"),

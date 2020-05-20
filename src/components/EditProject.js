@@ -24,7 +24,6 @@ class EditProject extends React.Component {
     componentDidMount() {
         this.skillsToSelect();
     }
-    componentDidUpdate() {}
     changeLoginStatus() {
         this.setState({
             isLogged: sessionStorage.getItem("isLogged"),

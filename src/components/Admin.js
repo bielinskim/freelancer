@@ -20,9 +20,6 @@ class Admin extends React.Component {
         this.getUsers();
         this.getRoles();
     }
-    componentDidUpdate() {
-        this.getUsers();
-    }
     changeLoginStatus() {
         this.setState({
             isLogged: sessionStorage.getItem("isLogged"),
@@ -34,6 +31,7 @@ class Admin extends React.Component {
         this.setState({
             update: this.state.update + 1,
         });
+        this.getUsers();
     }
     async getUsers() {
         if (sessionStorage.getItem("userId") != "null") {

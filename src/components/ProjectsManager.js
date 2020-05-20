@@ -21,9 +21,7 @@ class ProjectsManager extends React.Component {
     componentDidMount() {
         this.getProjectsByDate();
     }
-    componentDidUpdate() {
-        this.getProjectsByDate();
-    }
+
     changeLoginStatus() {
         this.setState({
             isLogged: sessionStorage.getItem("isLogged"),
@@ -43,6 +41,7 @@ class ProjectsManager extends React.Component {
         this.setState({
             update: this.state.update + 1,
         });
+        this.getProjectsByDate();
     }
     async getProjectsByDate() {
         if (sessionStorage.getItem("userId") != "null") {

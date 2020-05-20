@@ -19,9 +19,6 @@ class MyProjects extends React.Component {
     componentDidMount() {
         this.getMyProjects();
     }
-    componentDidUpdate() {
-        this.getMyProjects();
-    }
     changeLoginStatus() {
         this.setState({
             isLogged: sessionStorage.getItem("isLogged"),
@@ -48,6 +45,7 @@ class MyProjects extends React.Component {
         this.setState({
             update: this.state.update + 1,
         });
+        this.getMyProjects();
     }
     render() {
         return (
@@ -93,6 +91,17 @@ class MyProjects extends React.Component {
                             project.status_id == 2 && (
                                 <div className="list-project-container">
                                     <div className="project-list-details">
+                                        <div className="project-list-author">
+                                            <b>
+                                                {project.contractor.length !=
+                                                    0 &&
+                                                    project.contractor[0]
+                                                        .email +
+                                                        " " +
+                                                        project.contractor[0]
+                                                            .login}
+                                            </b>
+                                        </div>
                                         <div className="project-list-price">
                                             {project.price} PLN
                                         </div>
@@ -129,6 +138,17 @@ class MyProjects extends React.Component {
                             project.status_id == 3 && (
                                 <div className="list-project-container">
                                     <div className="project-list-details">
+                                        <div className="project-list-author">
+                                            <b>
+                                                {project.contractor.length !=
+                                                    0 &&
+                                                    project.contractor[0]
+                                                        .email +
+                                                        " " +
+                                                        project.contractor[0]
+                                                            .login}
+                                            </b>
+                                        </div>
                                         <p>{project.project_id}</p>
                                         <p>{project.category_id}</p>
 

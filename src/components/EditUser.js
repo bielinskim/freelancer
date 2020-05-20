@@ -25,7 +25,7 @@ class AddUser extends React.Component {
         this.setState({ user: user });
         this.getRoles();
     }
-    componentDidUpdate() {}
+
     changeLoginStatus() {
         this.setState({
             isLogged: sessionStorage.getItem("isLogged"),

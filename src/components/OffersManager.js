@@ -21,9 +21,7 @@ class OffersManager extends React.Component {
     componentDidMount() {
         this.getOffersByDate();
     }
-    componentDidUpdate() {
-        this.getOffersByDate();
-    }
+
     changeLoginStatus() {
         this.setState({
             isLogged: sessionStorage.getItem("isLogged"),
@@ -43,6 +41,7 @@ class OffersManager extends React.Component {
         this.setState({
             update: this.state.update + 1,
         });
+        this.getOffersByDate();
     }
     async getOffersByDate() {
         if (sessionStorage.getItem("userId") != "null") {

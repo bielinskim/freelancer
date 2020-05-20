@@ -22,7 +22,6 @@ class EditUser extends React.Component {
     componentDidMount() {
         this.getRoles();
     }
-    componentDidUpdate() {}
     changeLoginStatus() {
         this.setState({
             isLogged: sessionStorage.getItem("isLogged"),
