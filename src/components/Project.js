@@ -67,7 +67,7 @@ class Project extends React.Component {
         if ("true" != sessionStorage.getItem("isLogged")) {
             this.logout();
         }
-        if (this.state.loggedUserId == this.state.project.author_id) {
+        if (sessionStorage.getItem("userId") == this.state.project.author_id) {
             this.setState({ isOwner: true });
         } else {
             this.setState({ isOwner: false });

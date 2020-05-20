@@ -176,7 +176,7 @@ class Register extends React.Component {
                                     className="login-submit-button"
                                     type="submit"
                                 >
-                                    Zaloguj się
+                                    Zarejestruj się
                                 </button>
                             </div>
                         </form>
