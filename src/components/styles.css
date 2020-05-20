@@ -9,12 +9,6 @@ body {
     height: 100vh;
     min-height: 800px;
     position: relative;
-    background: rgb(72, 41, 178);
-    background: linear-gradient(
-        167deg,
-        rgba(90, 62, 186, 1) 54%,
-        rgba(72, 41, 178, 1) 54%
-    );
     font-family: "Lato", sans-serif !important;
 }
 
@@ -23,14 +17,12 @@ body {
 }
 .global-background {
     width: 100%;
-    height: 920px;
-    height: 100vh;
-    min-height: 800px;
+    min-height: 1000px;
     position: relative;
     background: #f5f3fb;
 }
 .global-content {
-    padding-top: 56px;
+    padding-top: 70px;
     max-width: 1300px;
     margin: 0 auto;
 }
@@ -360,12 +352,128 @@ body {
     width: 40px;
     height: 40px;
 }
-.list-project {
-    text-decoration: none;
-}
-.list-project:link {
-    text-decoration: none;
-}
+.list-project,
+.list-project:link,
+.list-project:hover,
 .list-project:visited {
+    color: black;
     text-decoration: none;
+}
+.list-project-container {
+    min-height: 170px;
+    width: 100%;
+    height: auto;
+}
+.list-project-container:hover {
+    transition-duration: 0.4s;
+    background-color: #efecf9;
+}
+.list-project-details {
+    display: block;
+    width: 100%;
+}
+.project-list-author {
+    margin-left: 10px;
+    padding: 10px;
+    width: 90%;
+    display: inline-block;
+}
+.project-list-category {
+    float: left;
+    width: auto;
+    padding: 10px;
+}
+.project-list-category div {
+    width: 100px;
+    display: inline-block;
+}
+.project-list-category svg {
+    fill: #5c3ebb;
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+}
+.project-list-skills {
+    float: left;
+    width: auto;
+    padding: 10px;
+}
+.project-list-skills div {
+    display: inline-block;
+    width: auto;
+    margin-right: 10px;
+}
+.project-list-price {
+    width: 10%;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    float: right;
+}
+.project-list-desc {
+    padding: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+.project-offers-container {
+    /* min-height: 170px; */
+    margin: 0 auto;
+    width: 80%;
+    height: auto;
+}
+.project-offer-container {
+    border-left: 5px solid #402c83;
+    height: auto;
+    margin: 25px 0px;
+    padding-left: 10px;
+}
+.project-offer-author {
+    margin-left: 10px;
+    width: 90%;
+}
+.project-offer-author-date {
+    padding: 10px 0px;
+    float: left;
+    display: block;
+    width: 50%;
+}
+.project-offer-time-price {
+    position: relative;
+    top: 20px;
+    padding: 10px 0px;
+    float: left;
+    display: block;
+    width: 50%;
+}
+.project-offer-skills {
+    padding: 10px 0px;
+    float: left;
+    width: 100%;
+    display: block;
+}
+.project-offer-skills div {
+    display: inline-block;
+    margin-right: 10px;
+}
+.project-offer-message {
+    padding: 10px 0px;
+    display: block;
+    width: 100%;
+}
+.add-offer-container {
+    min-width: 1300px;
+}
+.offer-skills {
+    float: left;
+    display: block;
+    width: 20%;
+}
+.offer-rest {
+    float: left;
+    display: block;
+    width: 80%;
+}
+.offer-send-button {
+    margin-left: 200px;
 }

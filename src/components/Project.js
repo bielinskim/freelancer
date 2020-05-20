@@ -9,6 +9,8 @@ import {
     checkIfUserAlreadyPostedOffer,
 } from "./Util";
 import LoginRegister from "./LoginRegister";
+import Icon from "../icons/Icons";
+import "./offer-checkbox.css";
 class Project extends React.Component {
     constructor(props) {
         super(props);
@@ -20,6 +22,9 @@ class Project extends React.Component {
                 desc: this.props.location.state.data.description,
                 price: this.props.location.state.data.price,
                 author_id: this.props.location.state.data.author_id,
+                login: this.props.location.state.data.login,
+                icon: this.props.location.state.data.icon,
+                category_name: this.props.location.state.data.name,
             },
             status_id: this.props.location.state.data.status_id,
             isLogged: sessionStorage.getItem("isLogged"),
@@ -38,8 +43,12 @@ class Project extends React.Component {
     componentDidMount() {
         this.setState({
             loginButton: (
-                <button value="show" onClick={this.showhideLoginBox}>
-                    Zeby dodac oferte musisz byc zalogowany
+                <button
+                    className="global-button form-button"
+                    value="show"
+                    onClick={this.showhideLoginBox}
+                >
+                    Żeby dodać oferte musisz być zalogowany
                 </button>
             ),
         });
@@ -94,8 +103,12 @@ class Project extends React.Component {
         } else if (e.target.value == "hide") {
             this.setState({
                 loginButton: (
-                    <button value="show" onClick={this.showhideLoginBox}>
-                        Zeby dodac oferte musisz byc zalogowany
+                    <button
+                        className="global-button form-button"
+                        value="show"
+                        onClick={this.showhideLoginBox}
+                    >
+                        Żeby dodać oferte musisz być zalogowany
                     </button>
                 ),
             });
@@ -104,8 +117,12 @@ class Project extends React.Component {
     logout() {
         this.setState({
             loginButton: (
-                <button value="show" onClick={this.showhideLoginBox}>
-                    Zeby dodac oferte musisz byc zalogowany
+                <button
+                    className="global-button form-button"
+                    value="show"
+                    onClick={this.showhideLoginBox}
+                >
+                    Żeby dodać oferte musisz być zalogowany
                 </button>
             ),
         });
@@ -117,7 +134,11 @@ class Project extends React.Component {
                 <p>Oferta zostala wybrana lub projekt jest zakonczony</p>
             );
         } else if (!this.state.canPost && "true" == this.state.isLogged) {
-            addOffer = <p>Dodales juz oferte</p>;
+            addOffer = (
+                <p>
+                    <b>Dodałeś już ofertę</b>
+                </p>
+            );
         } else if ("true" == this.state.isLogged && !this.state.isOwner) {
             addOffer = (
                 <AddOffer
@@ -131,21 +152,23 @@ class Project extends React.Component {
             addOffer = this.state.loginButton;
         }
         return (
-            <div>
-                <Nav
-                    isLogged={this.state.isLogged}
-                    changeStatus={this.changeLoginStatus}
-                />
-                <ProjectView project={this.state.project} />
-                <OffersList
-                    projectId={this.state.project.id}
-                    statusId={this.state.status_id}
-                    isOwner={this.state.isOwner}
-                    loggedUserId={this.state.loggedUserId}
-                    changeStatus={this.updateProjectStatus}
-                    offerAdded={this.state.offerAdded}
-                />
-                {addOffer}
+            <div className="global-background">
+                <div className="global-content">
+                    <Nav
+                        isLogged={this.state.isLogged}
+                        changeStatus={this.changeLoginStatus}
+                    />
+                    <ProjectView project={this.state.project} />
+                    <OffersList
+                        projectId={this.state.project.id}
+                        statusId={this.state.status_id}
+                        isOwner={this.state.isOwner}
+                        loggedUserId={this.state.loggedUserId}
+                        changeStatus={this.updateProjectStatus}
+                        offerAdded={this.state.offerAdded}
+                    />
+                    {addOffer}
+                </div>
             </div>
         );
     }
@@ -159,7 +182,32 @@ class ProjectView extends React.Component {
         this.state = { project: props.project };
     }
     render() {
-        return <p>{this.state.project.price}</p>;
+        return (
+            <div>
+                <div className="project-list-details">
+                    <div className="project-list-author">
+                        <b>{this.state.project.login}</b>
+                    </div>
+                    <div className="project-list-price">
+                        {this.state.project.price} PLN
+                    </div>
+                    <div className="project-list-category">
+                        <Icon icon={this.state.project.icon} />
+                        <b>
+                            <div>{this.state.project.category_name}</div>
+                        </b>
+                    </div>
+                    <div className="project-list-skills">
+                        {this.state.project.skills.map((skill) => (
+                            <div>{skill.name}</div>
+                        ))}
+                    </div>
+                </div>
+                <div className="project-list-desc">
+                    <p>{this.state.project.desc}</p>
+                </div>
+            </div>
+        );
     }
 }
 class OffersList extends React.Component {
@@ -175,7 +223,7 @@ class OffersList extends React.Component {
         this.chooseOffer = this.chooseOffer.bind(this);
     }
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.isOwner !== prevState.isOwner) {
+        if (nextProps.isOwner != prevState.isOwner) {
             return { isOwner: nextProps.isOwner };
         }
         if (nextProps.offerAdded != prevState.offerAdded) {
@@ -207,22 +255,50 @@ class OffersList extends React.Component {
     }
     render() {
         return (
-            <div>
-                <h1>{this.state.isOwner}</h1>
-                <h1>{this.state.project_id}</h1>
+            <div className="project-offers-container">
                 {this.state.offers.map((item) => (
-                    <div key={item.id}>
-                        <p>{item.user[0].login}</p>
-                        <p>{item.user[0].email}</p>
-                        {item.skills.map((skill) => (
-                            <p>{skill.name}</p>
-                        ))}
-                        <p>{item.estimated_time}</p>
-                        <p>{item.created_at}</p>
-                        <p>{item.message}</p>
-                        <p>{item.price}</p>
+                    <div className="project-offer-container" key={item.id}>
+                        <div className="project-offer-author-date">
+                            <b className="project-offer-author">
+                                {item.user[0].login}
+                            </b>
+                            <span
+                                style={{
+                                    width: "20px",
+                                    display: "inline-block",
+                                }}
+                            ></span>
+                            {item.created_at}
+                        </div>
+                        <div className="project-offer-time-price">
+                            Przewidywany czas pracy:<span> </span>
+                            <b>{item.estimated_time}</b> dni
+                            <span
+                                style={{
+                                    width: "40px",
+                                    display: "inline-block",
+                                }}
+                            ></span>
+                            Proponowana cena: <b>{item.price}</b> PLN
+                        </div>
+                        <div className="project-offer-skills">
+                            Umiejętności:
+                            <span
+                                style={{
+                                    width: "20px",
+                                    display: "inline-block",
+                                }}
+                            ></span>
+                            {item.skills.map((skill) => (
+                                <div>{skill.name}</div>
+                            ))}
+                        </div>
+                        <div className="project-offer-message">
+                            {item.message}
+                        </div>
                         {this.state.isOwner && this.state.status_id == 1 ? (
                             <button
+                                className="global-button"
                                 value={item.offer_id}
                                 onClick={this.chooseOffer}
                             >
@@ -307,31 +383,35 @@ class AddOffer extends React.Component {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
         };
-        fetch("http://localhost:8080/postoffer", requestOptions).then(() =>
-            alert("Wysłano")
-        );
-        var checkboxes = document.getElementsByClassName(
-            "offer-skills-checkbox"
-        );
-        for (var i = 0; i < checkboxes.length; i++) {
-            checkboxes.item(i).checked = false;
-        }
-        this.setState({
-            skillsChecked: [],
-            message: "",
-            price: 0,
-            estimated_time: 0,
-        });
+        fetch("http://localhost:8080/postoffer", requestOptions).then(
+            function () {
+                var checkboxes = document.getElementsByClassName(
+                    "offer-skills-checkbox"
+                );
+                for (var i = 0; i < checkboxes.length; i++) {
+                    checkboxes.item(i).checked = false;
+                }
+                this.setState({
+                    skillsChecked: [],
+                    message: "",
+                    price: 0,
+                    estimated_time: 0,
+                });
 
-        this.props.offerAdded();
+                this.props.offerAdded();
+            }.bind(this)
+        );
     }
     render() {
         return (
-            <div>
+            <div class="add-offer-container">
                 <form onSubmit={this.handleSubmit}>
-                    <div id="skills">
+                    <div id="skills" class="offer-skills">
+                        Posiadane umiejętności:
+                        <br /> <br />
                         {this.state.skillsToSelect.map((item) => (
-                            <div key={item.skill_id}>
+                            <label class="ocontainer">
+                                {item.name}
                                 <input
                                     key={item.skill_id}
                                     onClick={this.selectSkill}
@@ -339,40 +419,53 @@ class AddOffer extends React.Component {
                                     value={item.skill_id}
                                     className="offer-skills-checkbox"
                                 />
-                                {item.name}
-                            </div>
+                                <span class="ocheckmark"></span>
+                            </label>
                         ))}
                     </div>
-                    <div id="offer-message-container">
-                        <label>Treść</label>
-                        <textarea
-                            id="offer-message"
-                            name="message"
-                            onChange={this.changeState}
-                            value={this.state.message}
-                        />
+                    <div className="offer-rest">
+                        <div id="offer-message-container">
+                            <label>Treść:</label>
+                            <br />
+                            <textarea
+                                rows="4"
+                                cols="50"
+                                id="offer-message"
+                                name="message"
+                                onChange={this.changeState}
+                                value={this.state.message}
+                            />
+                        </div>
+                        <div id="offer-time-container">
+                            <label>Szacowany czas(w dniach):</label>
+                            <br />
+                            <input
+                                id="offer-time"
+                                type="number"
+                                name="time"
+                                onChange={this.changeState}
+                                value={this.state.estimated_time}
+                            />
+                        </div>
+                        <div id="offer-price-container">
+                            <label>Proponowana cena</label>
+                            <br />
+                            <input
+                                id="offer-price"
+                                type="number"
+                                name="price"
+                                onChange={this.changeState}
+                                value={this.state.price}
+                            />
+                        </div>
+                        <br /> <br />
                     </div>
-                    <div id="offer-time-container">
-                        <label>Szacowany czas(w dniach)</label>
-                        <input
-                            id="offer-time"
-                            type="number"
-                            name="time"
-                            onChange={this.changeState}
-                            value={this.state.estimated_time}
-                        />
-                    </div>
-                    <div id="offer-price-container">
-                        <label>Proponowana cena</label>
-                        <input
-                            id="offer-price"
-                            type="number"
-                            name="price"
-                            onChange={this.changeState}
-                            value={this.state.price}
-                        />
-                    </div>
-                    <button type="submit">Wyślij</button>
+                    <button
+                        className="global-button offer-send-button"
+                        type="submit"
+                    >
+                        Wyślij
+                    </button>
                     <br />
                 </form>
             </div>

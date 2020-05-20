@@ -1,5 +1,6 @@
 import React from "react";
 import Nav from "./Nav";
+import Icon from "../icons/Icons";
 // eslint-disable-next-line
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -44,25 +45,40 @@ class List extends React.Component {
                         changeStatus={this.changeLoginStatus}
                     />
                     {this.state.data.map((item) => (
-                        <Link
-                            className="list-project"
-                            to={{
-                                pathname: "/project",
-                                state: {
-                                    data: item,
-                                },
-                            }}
-                        >
-                            <p>{item.project_id}</p>
-                            <p>{item.category_id}</p>
-
-                            {item.skills.map((skill) => (
-                                <p>{skill.name}</p>
-                            ))}
-                            <p>{item.description}</p>
-                            <p>{item.price}</p>
-                            <br />
-                        </Link>
+                        <div className="list-project-container">
+                            <Link
+                                className="list-project"
+                                to={{
+                                    pathname: "/project",
+                                    state: {
+                                        data: item,
+                                    },
+                                }}
+                            >
+                                <div className="project-list-details">
+                                    <div className="project-list-author">
+                                        <b>{item.login}</b>
+                                    </div>
+                                    <div className="project-list-price">
+                                        {item.price} PLN
+                                    </div>
+                                    <div className="project-list-category">
+                                        <Icon icon={item.icon} />
+                                        <b>
+                                            <div>{item.name}</div>
+                                        </b>
+                                    </div>
+                                    <div className="project-list-skills">
+                                        {item.skills.map((skill) => (
+                                            <div>{skill.name}</div>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="project-list-desc">
+                                    <p>{item.description}</p>
+                                </div>
+                            </Link>
+                        </div>
                     ))}
                 </div>
             </div>

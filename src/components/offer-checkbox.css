@@ -1,0 +1,47 @@
+.ocontainer {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.ocontainer input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.ocheckmark {
+    position: absolute;
+    top: 5px;
+    left: 15px;
+    height: 15px;
+    width: 15px;
+    background-color: #eee;
+}
+
+.ocontainer:hover input ~ .ocheckmark {
+    background-color: #ccc;
+}
+
+.ocontainer input:checked ~ .ocheckmark {
+    background-color: #5c3ebb;
+}
+
+.ocheckmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.ocontainer input:checked ~ .ocheckmark:after {
+    display: block;
+}

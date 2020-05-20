@@ -45,8 +45,12 @@ class Create extends React.Component {
         });
         this.setState({
             loginButton: (
-                <button value="show" onClick={this.showhideLoginBox}>
-                    Zeby dodac projekt musisz byc zalogowany
+                <button
+                    value="show"
+                    className="global-button form-button"
+                    onClick={this.showhideLoginBox}
+                >
+                    Żeby dodać projekt musisz byc zalogowany
                 </button>
             ),
         });
@@ -143,8 +147,12 @@ class Create extends React.Component {
         } else if (e.target.value == "hide") {
             this.setState({
                 loginButton: (
-                    <button value="show" onClick={this.showhideLoginBox}>
-                        Zeby dodac projekt musisz byc zalogowany
+                    <button
+                        value="show"
+                        className="global-button form-button"
+                        onClick={this.showhideLoginBox}
+                    >
+                        Żeby dodać projekt musisz byc zalogowany
                     </button>
                 ),
             });
@@ -154,8 +162,12 @@ class Create extends React.Component {
         this.setState({
             isLogged: false,
             loginButton: (
-                <button value="show" onClick={this.showhideLoginBox}>
-                    Zeby dodac projekt musisz byc zalogowany
+                <button
+                    value="show"
+                    className="global-button form-button"
+                    onClick={this.showhideLoginBox}
+                >
+                    Żeby dodać projekt musisz byc zalogowany
                 </button>
             ),
         });
