@@ -359,12 +359,14 @@ body {
     color: black;
     text-decoration: none;
 }
-.list-project-container {
+.list-project-container,
+.list-offer-container {
     min-height: 170px;
     width: 100%;
     height: auto;
 }
-.list-project-container:hover {
+.list-project-container:hover,
+.list-offer-container:hover {
     transition-duration: 0.4s;
     background-color: #efecf9;
 }
@@ -378,32 +380,38 @@ body {
     width: 90%;
     display: inline-block;
 }
-.project-list-category {
+.project-list-category,
+.offer-list-category {
     float: left;
     width: auto;
     padding: 10px;
 }
-.project-list-category div {
+.project-list-category div,
+.offer-list-category div {
     width: 100px;
     display: inline-block;
 }
-.project-list-category svg {
+.project-list-category svg,
+.offer-list-category svg {
     fill: #5c3ebb;
     width: 25px;
     height: 25px;
     margin-right: 10px;
 }
-.project-list-skills {
+.project-list-skills,
+.offer-list-skills {
     float: left;
     width: auto;
     padding: 10px;
 }
-.project-list-skills div {
+.project-list-skills div,
+.offer-list-skills div {
     display: inline-block;
     width: auto;
     margin-right: 10px;
 }
-.project-list-price {
+.project-list-price,
+.offer-list-price {
     width: 10%;
     padding: 10px;
     font-size: 20px;
@@ -461,7 +469,8 @@ body {
     display: block;
     width: 100%;
 }
-.add-offer-container {
+.add-offer-container,
+.edit-project-container {
     min-width: 1300px;
 }
 .offer-skills {
@@ -469,11 +478,38 @@ body {
     display: block;
     width: 20%;
 }
-.offer-rest {
+.offer-rest,
+.edit-project-rest {
     float: left;
     display: block;
     width: 80%;
 }
 .offer-send-button {
     margin-left: 200px;
+}
+.edit-project-skills {
+    float: left;
+    display: block;
+}
+.edit-project-category {
+    float: left;
+    display: block;
+}
+.edit-project-first {
+    float: left;
+    display: block;
+    width: 20%;
+}
+.offer-list-time-price {
+    top: 20px;
+    padding: 10px 0px;
+    float: right;
+    display: block;
+    width: 40%;
+}
+.offer-list-desc {
+    padding: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
 }

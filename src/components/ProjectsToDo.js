@@ -72,7 +72,7 @@ class ProjectsToDo extends React.Component {
                                         </div>
                                         <div className="project-list-skills">
                                             {project.skills.map((skill) => (
-                                                <div>{project.name}</div>
+                                                <div>{skill.name}</div>
                                             ))}
                                         </div>
                                     </div>
@@ -107,7 +107,7 @@ class ProjectsToDo extends React.Component {
                                         </div>
                                         <div className="project-list-skills">
                                             {project.skills.map((skill) => (
-                                                <div>{project.name}</div>
+                                                <div>{skill.name}</div>
                                             ))}
                                         </div>
                                     </div>

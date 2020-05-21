@@ -83,7 +83,7 @@ class ProjectsManager extends React.Component {
                         value={31}
                         onClick={this.setPeriodOfData}
                     >
-                        Miesiac
+                        Miesiąc
                     </button>
                     <button
                         className="global-button"
@@ -114,7 +114,7 @@ class ProjectsManager extends React.Component {
                                 </div>
                                 <div className="project-list-skills">
                                     {project.skills.map((skill) => (
-                                        <div>{project.name}</div>
+                                        <div>{skill.name}</div>
                                     ))}
                                 </div>
                             </div>

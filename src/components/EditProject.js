@@ -128,60 +128,89 @@ class EditProject extends React.Component {
                         isLogged={this.state.isLogged}
                         changeStatus={this.changeLoginStatus}
                     />
-                    <Link to="/projectsmanager">Powrót</Link>
-                    <br />
+                    <h1>Edytuj projekt</h1>
+
                     <form
-                        class="add-offer-container"
+                        class="edit-project-container"
                         onSubmit={this.handleSubmit}
                     >
-                        <input
-                            id="edit-category"
-                            type="number"
-                            value={this.state.project.category_id}
-                            onChange={this.handleChange}
-                        ></input>
-                        <br />
-                        <div class="offer-skills">
-                            {this.state.skillsToSelect.map((item) => (
-                                <label class="ocontainer" key={item.skill_id}>
-                                    {item.name}
-                                    <input
+                        <div class="edit-project-first">
+                            <div class="edit-project-category">
+                                <label>Kategoria:</label>
+                                <br />
+                                <input
+                                    id="edit-category"
+                                    type="number"
+                                    value={this.state.project.category_id}
+                                    onChange={this.handleChange}
+                                ></input>
+                                <br />
+                            </div>
+                            <div class="edit-project-skills">
+                                Posiadane umiejętności:
+                                <br /> <br />
+                                {this.state.skillsToSelect.map((item) => (
+                                    <label
+                                        class="ocontainer"
                                         key={item.skill_id}
-                                        onClick={this.selectSkill}
-                                        type="checkbox"
-                                        value={item.skill_id}
-                                        name={item.name}
-                                        className="edit-skills-checkbox"
-                                    />
+                                    >
+                                        {item.name}
+                                        <input
+                                            key={item.skill_id}
+                                            onClick={this.selectSkill}
+                                            type="checkbox"
+                                            value={item.skill_id}
+                                            name={item.name}
+                                            className="edit-skills-checkbox"
+                                        />
 
-                                    <span class="ocheckmark"></span>
-                                </label>
-                            ))}
+                                        <span class="ocheckmark"></span>
+                                    </label>
+                                ))}
+                            </div>
                         </div>
-                        <div class="offer-skills">
-                            <textarea
-                                id="edit-desc"
-                                rows="25"
-                                cols="50"
-                                value={this.state.project.description}
-                                onChange={this.handleChange}
-                            />
-                            <br />
-                            <input
-                                id="edit-price"
-                                type="number"
-                                value={this.state.project.price}
-                                onChange={this.handleChange}
-                            ></input>
-                            <br />
-                            <input
-                                id="edit-status"
-                                type="number"
-                                value={this.state.project.status_id}
-                            ></input>
-                            <br />
+                        <div class="edit-project-rest">
+                            <div>
+                                <label>Treść:</label>
+                                <br />
+                                <textarea
+                                    id="edit-desc"
+                                    rows="4"
+                                    cols="50"
+                                    value={this.state.project.description}
+                                    onChange={this.handleChange}
+                                />
+                            </div>
+
+                            <div>
+                                <label>Cena:</label>
+                                <br />
+
+                                <input
+                                    id="edit-price"
+                                    type="number"
+                                    value={this.state.project.price}
+                                    onChange={this.handleChange}
+                                ></input>
+                            </div>
+                            <div i>
+                                <label>Status:</label>
+                                <br />
+                                <input
+                                    id="edit-status"
+                                    type="number"
+                                    value={this.state.project.status_id}
+                                ></input>
+                            </div>
                         </div>
-                        <button type="submit">Wyślij</button>
+                        <br />
+                        <br />
+                        <button className="global-button" type="submit">
+                            Wyślij
+                        </button>
+                        <Link to="/projectsmanager">
+                            <button className="global-button">Powrót</button>
+                        </Link>
                     </form>
                 </div>
             </div>
