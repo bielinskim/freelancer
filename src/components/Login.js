@@ -39,6 +39,7 @@ class Login extends React.Component {
                     sessionStorage.setItem("isLogged", true);
                     sessionStorage.setItem("userId", result[0].user_id);
                     sessionStorage.setItem("roleId", result[0].role_id);
+                    sessionStorage.setItem("login", result[0].login);
                     this.props.changeStatus();
                 } else {
                     alert("Nie udało sie zalogować");

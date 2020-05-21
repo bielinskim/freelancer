@@ -539,3 +539,7 @@ body {
     background-color: #5c3ebb;
     color: white;
 }
+.nav-logged-as {
+    left: -10px;
+    position: relative;
+}

@@ -72,6 +72,12 @@ class Navigation extends React.Component {
                         </li>
                     </ul>
                     <ul class="nav navbar-nav ml-auto">
+                        {sessionStorage.getItem("isLogged") == "true" && (
+                            <span class="nav-logged-as navbar-text">
+                                Jesteś zalogowany jako{" "}
+                                <b> {sessionStorage.getItem("login")} </b>
+                            </span>
+                        )}
                         <li>
                             <LoginLogout
                                 changeStatus={this.changeLoginStatus}
@@ -98,6 +104,7 @@ class LoginLogout extends React.Component {
         sessionStorage.setItem("isLogged", false);
         sessionStorage.setItem("userId", null);
         sessionStorage.setItem("roleId", null);
+        sessionStorage.setItem("login", null);
         this.props.changeStatus();
         this.setState({ loginModal: "" });
     }
