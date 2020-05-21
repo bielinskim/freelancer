@@ -81,57 +81,76 @@ class AddUser extends React.Component {
     }
     render() {
         return (
-            <div>
-                <Nav
-                    isLogged={this.state.isLogged}
-                    changeStatus={this.changeLoginStatus}
-                />
-                <Link to="/admin">Powrót</Link>
-                <br />
-                {sessionStorage.getItem("userId") != "null" && (
-                    <form onSubmit={this.handleSubmit}>
-                        <input
-                            id="edit-login"
-                            type="text"
-                            value={this.state.user.login}
-                            onChange={this.handleChange}
-                        ></input>
-                        <br />
-
-                        <input
-                            id="edit-password"
-                            type="password"
-                            placeholder="*******"
-                            minlength="5"
-                            value={this.state.user.password}
-                            onChange={this.handleChange}
-                        ></input>
-                        <br />
-                        <input
-                            id="edit-email"
-                            type="email"
-                            value={this.state.user.email}
-                            onChange={this.handleChange}
-                        ></input>
-                        <br />
-                        {this.state.roles.length != 0 && (
-                            <select id="edit-role">
-                                <option value={this.state.roles[0].role_id}>
-                                    {this.state.roles[0].name}
-                                </option>
-                                <option value={this.state.roles[1].role_id}>
-                                    {this.state.roles[1].name}
-                                </option>
-                                <option value={this.state.roles[2].role_id}>
-                                    {this.state.roles[2].name}
-                                </option>
-                            </select>
-                        )}
-                        <br />
-                        <button type="submit">Wyślij</button>
-                        <br />
-                    </form>
-                )}
+            <div className="global-background">
+                <div className="global-content">
+                    <Nav
+                        isLogged={this.state.isLogged}
+                        changeStatus={this.changeLoginStatus}
+                    />
+                    <h1>Edytuj użytkownika</h1>
+                    {sessionStorage.getItem("userId") != "null" && (
+                        <form onSubmit={this.handleSubmit}>
+                            <label>Login:</label>
+                            <br />
+                            <input
+                                id="edit-login"
+                                type="text"
+                                value={this.state.user.login}
+                                onChange={this.handleChange}
+                            ></input>
+                            <br />
+                            <br />
+                            <label>Hasło:</label>
+                            <br />
+                            <input
+                                id="edit-password"
+                                type="password"
+                                placeholder="*******"
+                                minlength="5"
+                                value={this.state.user.newpassword}
+                                onChange={this.handleChange}
+                            ></input>
+                            <br />
+                            <br />
+                            <label>Email:</label>
+                            <br />
+                            <input
+                                id="edit-email"
+                                type="email"
+                                value={this.state.user.email}
+                                onChange={this.handleChange}
+                            ></input>
+                            <br />
+                            <br />
+                            <label>Rola:</label>
+                            <br />
+                            {this.state.roles.length != 0 && (
+                                <select id="edit-role">
+                                    <option value={this.state.roles[0].role_id}>
+                                        {this.state.roles[0].name}
+                                    </option>
+                                    <option value={this.state.roles[1].role_id}>
+                                        {this.state.roles[1].name}
+                                    </option>
+                                    <option value={this.state.roles[2].role_id}>
+                                        {this.state.roles[2].name}
+                                    </option>
+                                </select>
+                            )}
+                            <br />
+                            <br />
+                            <br />
+                            <button className="global-button" type="submit">
+                                Wyślij
+                            </button>
+                            <Link to="/admin">
+                                <button className="global-button">
+                                    Powrót
+                                </button>
+                            </Link>
+                        </form>
+                    )}
+                </div>
             </div>
         );
     }

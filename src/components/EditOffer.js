@@ -2,7 +2,7 @@ import React from "react";
 import Nav from "./Nav";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { getSkillsByCategoryId } from "./Util";
-
+import "./offer-checkbox.css";
 import "./styles.css";
 
 class EditOffer extends React.Component {
@@ -122,60 +122,85 @@ class EditOffer extends React.Component {
     }
     render() {
         return (
-            <div>
-                <Nav
-                    isLogged={this.state.isLogged}
-                    changeStatus={this.changeLoginStatus}
-                />
-                <Link to="/offersmanager">Powrót</Link>
-                <br />
-                <form onSubmit={this.handleSubmit}>
-                    <input
-                        id="edit-category"
-                        type="number"
-                        value={this.state.offer.category_id}
-                        onChange={this.handleChange}
-                    ></input>
-                    <br />
-                    {this.state.skillsToSelect.map((item) => (
-                        <div key={item.skill_id}>
-                            <input
-                                key={item.skill_id}
-                                onClick={this.selectSkill}
-                                type="checkbox"
-                                value={item.skill_id}
-                                name={item.name}
-                                className="edit-skills-checkbox"
-                            />
-                            {item.name}
-                        </div>
-                    ))}
-                    <textarea
-                        id="edit-message"
-                        rows="25"
-                        cols="50"
-                        value={this.state.offer.message}
-                        onChange={this.handleChange}
+            <div className="global-background">
+                <div className="global-content">
+                    <Nav
+                        isLogged={this.state.isLogged}
+                        changeStatus={this.changeLoginStatus}
                     />
-                    <br />
-                    <input
-                        id="edit-time"
-                        type="number"
-                        value={this.state.offer.estimated_time}
-                        onChange={this.handleChange}
-                    ></input>
-                    <br />
-
-                    <input
-                        id="edit-price"
-                        type="number"
-                        value={this.state.offer.price}
-                        onChange={this.handleChange}
-                    ></input>
-                    <br />
-                    <button type="submit">Wyślij</button>
-                    <br />
-                </form>
+                    <h1>Edytuj ofertę</h1>
+                    <form onSubmit={this.handleSubmit}>
+                        <div class="edit-offer-first">
+                            <label>Kategoria:</label>
+                            <br />
+                            <input
+                                id="edit-category"
+                                type="number"
+                                value={this.state.offer.category_id}
+                                onChange={this.handleChange}
+                            ></input>
+                            <div class="edit-offer-skills">
+                                <br />
+                                Posiadane umiejętności:
+                                <br />
+                                {this.state.skillsToSelect.map((item) => (
+                                    <label
+                                        class="ocontainer"
+                                        key={item.skill_id}
+                                    >
+                                        {item.name}
+                                        <input
+                                            key={item.skill_id}
+                                            onClick={this.selectSkill}
+                                            type="checkbox"
+                                            value={item.skill_id}
+                                            name={item.name}
+                                            className="edit-skills-checkbox"
+                                        />
+                                        <span class="ocheckmark"></span>
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+                        <div class="edit-offer-rest">
+                            <label>Treść:</label>
+                            <br />
+                            <textarea
+                                id="edit-message"
+                                rows="4"
+                                cols="50"
+                                value={this.state.offer.message}
+                                onChange={this.handleChange}
+                            />
+                            <br />
+                            <label>Szacowany czas:</label>
+                            <br />
+                            <input
+                                id="edit-time"
+                                type="number"
+                                value={this.state.offer.estimated_time}
+                                onChange={this.handleChange}
+                            ></input>
+                            <br />
+                            <label>Proponowany koszt:</label>
+                            <br />
+                            <input
+                                id="edit-price"
+                                type="number"
+                                value={this.state.offer.price}
+                                onChange={this.handleChange}
+                            ></input>
+                        </div>
+                        <br />
+                        <br />
+                        <button className="global-button" type="submit">
+                            Wyślij
+                        </button>
+                        <Link to="/offersmanager">
+                            <button className="global-button">Powrót</button>
+                        </Link>
+                    </form>
+                </div>
             </div>
         );
     }

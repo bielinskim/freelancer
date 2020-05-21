@@ -15,6 +15,8 @@ class Admin extends React.Component {
             update: 0,
         };
         this.changeLoginStatus = this.changeLoginStatus.bind(this);
+        this.deleteUser = this.deleteUser.bind(this);
+        this.getUsers = this.getUsers.bind(this);
     }
     componentDidMount() {
         this.getUsers();
@@ -51,47 +53,63 @@ class Admin extends React.Component {
     }
     render() {
         return (
-            <div>
-                <Nav
-                    isLogged={this.state.isLogged}
-                    changeStatus={this.changeLoginStatus}
-                />
-                <ul>
-                    {this.state.users.map((user) => (
-                        <li>
-                            <p>{user.login}</p>
+            <div className="global-background">
+                <div className="global-content">
+                    <Nav
+                        isLogged={this.state.isLogged}
+                        changeStatus={this.changeLoginStatus}
+                    />
+                    <table class="admin-panel-users-table">
+                        <tbody>
+                            <tr>
+                                <th>Login</th>
+                                <th>Email</th>
+                                <th>Rola</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            {this.state.users.map((user) => (
+                                <tr>
+                                    <td>{user.login}</td>
 
-                            <p>{user.email}</p>
-                            <p>{user.role_id}</p>
-                            <button
-                                value={user.user_id}
-                                onClick={this.deleteUser}
-                            >
-                                Usuń
-                            </button>
-
-                            <Link
-                                to={{
-                                    pathname: "/edituser",
-                                    state: {
-                                        user: user,
-                                    },
-                                }}
-                            >
-                                <button>Edytuj</button>
-                            </Link>
-
-                            <br />
-                        </li>
-                    ))}
-                </ul>
-                <Link
-                    to={{
-                        pathname: "/adduser",
-                    }}
-                >
-                    <button>Dodaj</button>
-                </Link>
+                                    <td>{user.email}</td>
+                                    <td>{user.role_name}</td>
+                                    <td>
+                                        <button
+                                            value={user.user_id}
+                                            onClick={this.deleteUser}
+                                        >
+                                            Usuń
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <Link
+                                            to={{
+                                                pathname: "/edituser",
+                                                state: {
+                                                    user: user,
+                                                },
+                                            }}
+                                        >
+                                            <button>Edytuj</button>
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <br />
+                    <Link
+                        to={{
+                            pathname: "/adduser",
+                        }}
+                    >
+                        <button className="global-button">Dodaj</button>
+                    </Link>
+                    <Link to="/">
+                        <button className="global-button">Powrót</button>
+                    </Link>
+                </div>
             </div>
         );
     }

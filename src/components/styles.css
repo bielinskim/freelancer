@@ -479,7 +479,8 @@ body {
     width: 20%;
 }
 .offer-rest,
-.edit-project-rest {
+.edit-project-rest,
+.edit-offer-rest {
     float: left;
     display: block;
     width: 80%;
@@ -487,7 +488,8 @@ body {
 .offer-send-button {
     margin-left: 200px;
 }
-.edit-project-skills {
+.edit-project-skills,
+.edit-offer-skills {
     float: left;
     display: block;
 }
@@ -495,7 +497,8 @@ body {
     float: left;
     display: block;
 }
-.edit-project-first {
+.edit-project-first,
+.edit-offer-first {
     float: left;
     display: block;
     width: 20%;
@@ -512,4 +515,27 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
+}
+.admin-panel-users-table {
+    border-collapse: collapse;
+}
+.admin-panel-users-table td,
+.admin-panel-users-table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+.admin-panel-users-table tr:nth-child(even) {
+    background-color: #ded8f2;
+}
+
+.admin-panel-users-table tr:hover {
+    background-color: #bdb1e5;
+}
+
+.admin-panel-users-table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #5c3ebb;
+    color: white;
 }

@@ -58,7 +58,6 @@ class MyProjects extends React.Component {
                         changeStatus={this.changeLoginStatus}
                     />
                     <h1>Utworzone</h1>
-
                     {this.state.projects.map(
                         (project) =>
                             project.status_id == 1 && (

@@ -147,8 +147,9 @@ class EditProject extends React.Component {
                                 <br />
                             </div>
                             <div class="edit-project-skills">
+                                <br />
                                 Posiadane umiejętności:
-                                <br /> <br />
+                                <br />
                                 {this.state.skillsToSelect.map((item) => (
                                     <label
                                         class="ocontainer"
