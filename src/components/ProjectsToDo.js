@@ -2,7 +2,7 @@ import React from "react";
 import Nav from "./Nav";
 import "./styles.css";
 import { getProjectsToDo } from "./Util";
-
+import Icon from "../icons/Icons";
 class ProjectsToDo extends React.Component {
     constructor(props) {
         super(props);
@@ -25,11 +25,15 @@ class ProjectsToDo extends React.Component {
             this.setState({
                 projects: [],
             });
+        } else {
+            this.getProjectsToDo();
         }
     }
     async getProjectsToDo() {
         if (sessionStorage.getItem("userId") != "null") {
-            var result = await getProjectsToDo(this.state.userId);
+            var result = await getProjectsToDo(
+                sessionStorage.getItem("userId")
+            );
         }
         if (sessionStorage.getItem("userId") != "null") {
             this.setState({
@@ -39,49 +43,81 @@ class ProjectsToDo extends React.Component {
     }
     render() {
         return (
-            <div>
-                <Nav
-                    isLogged={this.state.isLogged}
-                    changeStatus={this.changeLoginStatus}
-                />
-                <h1>Zaakceptowane</h1>
-                <ul>
+            <div className="global-background">
+                <div className="global-content">
+                    <Nav
+                        isLogged={this.state.isLogged}
+                        changeStatus={this.changeLoginStatus}
+                    />
+                    <h1>Zaakceptowane</h1>
                     {this.state.projects.map(
                         (project) =>
                             project.status_id == 2 && (
-                                <li>
-                                    <p>{project.login}</p>
-                                    <p>{project.email}</p>
-
-                                    {project.skills.map((skill) => (
-                                        <p>{skill.name}</p>
-                                    ))}
-                                    <p>{project.description}</p>
-                                    <p>{project.price}</p>
-                                    <br />
-                                </li>
+                                <div className="list-project-container">
+                                    <div className="project-list-details">
+                                        <div className="project-list-author">
+                                            <b>
+                                                {project.email}
+                                                {project.login}
+                                            </b>
+                                        </div>
+                                        <div className="project-list-price">
+                                            {project.price} PLN
+                                        </div>
+                                        <div className="project-list-category">
+                                            <Icon icon={project.icon} />
+                                            <b>
+                                                <div>{project.name}</div>
+                                            </b>
+                                        </div>
+                                        <div className="project-list-skills">
+                                            {project.skills.map((skill) => (
+                                                <div>{project.name}</div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div className="project-list-desc">
+                                        <p>{project.description}</p>
+                                    </div>
+                                </div>
                             )
                     )}
-                </ul>
-                <h1>Zakończone</h1>
-                <ul>
+
+                    <h1>Zakończone</h1>
+
                     {this.state.projects.map(
                         (project) =>
                             project.status_id == 3 && (
-                                <li>
-                                    <p>{project.login}</p>
-                                    <p>{project.email}</p>
-
-                                    {project.skills.map((skill) => (
-                                        <p>{skill.name}</p>
-                                    ))}
-                                    <p>{project.description}</p>
-                                    <p>{project.price}</p>
-                                    <br />
-                                </li>
+                                <div className="list-project-container">
+                                    <div className="project-list-details">
+                                        <div className="project-list-author">
+                                            <b>
+                                                {project.email}
+                                                {project.login}
+                                            </b>
+                                        </div>
+                                        <div className="project-list-price">
+                                            {project.price} PLN
+                                        </div>
+                                        <div className="project-list-category">
+                                            <Icon icon={project.icon} />
+                                            <b>
+                                                <div>{project.name}</div>
+                                            </b>
+                                        </div>
+                                        <div className="project-list-skills">
+                                            {project.skills.map((skill) => (
+                                                <div>{project.name}</div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div className="project-list-desc">
+                                        <p>{project.description}</p>
+                                    </div>
+                                </div>
                             )
                     )}
-                </ul>
+                </div>
             </div>
         );
     }

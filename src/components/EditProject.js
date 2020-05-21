@@ -2,7 +2,7 @@ import React from "react";
 import Nav from "./Nav";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { getSkillsByCategoryId } from "./Util";
-
+import "./offer-checkbox.css";
 import "./styles.css";
 
 class EditProject extends React.Component {
@@ -122,58 +122,68 @@ class EditProject extends React.Component {
     }
     render() {
         return (
-            <div>
-                <Nav
-                    isLogged={this.state.isLogged}
-                    changeStatus={this.changeLoginStatus}
-                />
-                <Link to="/projectsmanager">Powrót</Link>
-                <br />
-                <form onSubmit={this.handleSubmit}>
-                    <input
-                        id="edit-category"
-                        type="number"
-                        value={this.state.project.category_id}
-                        onChange={this.handleChange}
-                    ></input>
-                    <br />
-                    {this.state.skillsToSelect.map((item) => (
-                        <div key={item.skill_id}>
-                            <input
-                                key={item.skill_id}
-                                onClick={this.selectSkill}
-                                type="checkbox"
-                                value={item.skill_id}
-                                name={item.name}
-                                className="edit-skills-checkbox"
-                            />
-                            {item.name}
-                        </div>
-                    ))}
-                    <textarea
-                        id="edit-desc"
-                        rows="25"
-                        cols="50"
-                        value={this.state.project.description}
-                        onChange={this.handleChange}
+            <div className="global-background">
+                <div className="global-content">
+                    <Nav
+                        isLogged={this.state.isLogged}
+                        changeStatus={this.changeLoginStatus}
                     />
+                    <Link to="/projectsmanager">Powrót</Link>
                     <br />
-                    <input
-                        id="edit-price"
-                        type="number"
-                        value={this.state.project.price}
-                        onChange={this.handleChange}
-                    ></input>
-                    <br />
-                    <input
-                        id="edit-status"
-                        type="number"
-                        value={this.state.project.status_id}
-                    ></input>
-                    <br />
-                    <button type="submit">Wyślij</button>
-                    <br />
-                </form>
+                    <form
+                        class="add-offer-container"
+                        onSubmit={this.handleSubmit}
+                    >
+                        <input
+                            id="edit-category"
+                            type="number"
+                            value={this.state.project.category_id}
+                            onChange={this.handleChange}
+                        ></input>
+                        <br />
+                        <div class="offer-skills">
+                            {this.state.skillsToSelect.map((item) => (
+                                <label class="ocontainer" key={item.skill_id}>
+                                    {item.name}
+                                    <input
+                                        key={item.skill_id}
+                                        onClick={this.selectSkill}
+                                        type="checkbox"
+                                        value={item.skill_id}
+                                        name={item.name}
+                                        className="edit-skills-checkbox"
+                                    />
+
+                                    <span class="ocheckmark"></span>
+                                </label>
+                            ))}
+                        </div>
+                        <div class="offer-skills">
+                            <textarea
+                                id="edit-desc"
+                                rows="25"
+                                cols="50"
+                                value={this.state.project.description}
+                                onChange={this.handleChange}
+                            />
+                            <br />
+                            <input
+                                id="edit-price"
+                                type="number"
+                                value={this.state.project.price}
+                                onChange={this.handleChange}
+                            ></input>
+                            <br />
+                            <input
+                                id="edit-status"
+                                type="number"
+                                value={this.state.project.status_id}
+                            ></input>
+                            <br />
+                        </div>
+                        <button type="submit">Wyślij</button>
+                    </form>
+                </div>
             </div>
         );
     }

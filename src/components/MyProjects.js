@@ -28,6 +28,8 @@ class MyProjects extends React.Component {
             this.setState({
                 projects: [],
             });
+        } else {
+            this.getMyProjects();
         }
     }
     async getMyProjects() {
@@ -149,16 +151,24 @@ class MyProjects extends React.Component {
                                                             .login}
                                             </b>
                                         </div>
-                                        <p>{project.project_id}</p>
-                                        <p>{project.category_id}</p>
-
-                                        {project.skills.map((skill) => (
-                                            <p>{skill.name}</p>
-                                        ))}
-
-                                        <p>{project.price}</p>
+                                        <div className="project-list-price">
+                                            {project.price} PLN
+                                        </div>
+                                        <div className="project-list-category">
+                                            <Icon icon={project.icon} />
+                                            <b>
+                                                <div>{project.name}</div>
+                                            </b>
+                                        </div>
+                                        <div className="project-list-skills">
+                                            {project.skills.map((skill) => (
+                                                <div>{project.name}</div>
+                                            ))}
+                                        </div>
                                     </div>
-                                    <p>{project.description}</p>
+                                    <div className="project-list-desc">
+                                        <p>{project.description}</p>
+                                    </div>
                                 </div>
                             )
                     )}

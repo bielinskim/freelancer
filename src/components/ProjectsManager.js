@@ -3,6 +3,7 @@ import Nav from "./Nav";
 import { getProjectsByDate, deleteProject } from "./Util";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./styles.css";
+import Icon from "../icons/Icons";
 
 class ProjectsManager extends React.Component {
     constructor(props) {
@@ -31,6 +32,8 @@ class ProjectsManager extends React.Component {
             this.setState({
                 projects: [],
             });
+        } else {
+            this.getProjectsByDate();
         }
     }
     setPeriodOfData(e) {
@@ -55,38 +58,71 @@ class ProjectsManager extends React.Component {
     }
     render() {
         return (
-            <div>
-                <Nav
-                    isLogged={this.state.isLogged}
-                    changeStatus={this.changeLoginStatus}
-                />
-                <button value={1} onClick={this.setPeriodOfData}>
-                    Dzień
-                </button>
-                <button value={7} onClick={this.setPeriodOfData}>
-                    Tydzień
-                </button>
-                <button value={31} onClick={this.setPeriodOfData}>
-                    Miesiac
-                </button>
-                <button value={365} onClick={this.setPeriodOfData}>
-                    Rok
-                </button>
-                <button value={9999} onClick={this.setPeriodOfData}>
-                    Wszystkie
-                </button>
-                <ul>
-                    {this.state.projects.map((project) => (
-                        <li>
-                            <p>{project.project_id}</p>
-                            <p>{project.category_id}</p>
+            <div className="global-background">
+                <div className="global-content">
+                    <Nav
+                        isLogged={this.state.isLogged}
+                        changeStatus={this.changeLoginStatus}
+                    />
+                    <button
+                        className="global-button"
+                        value={1}
+                        onClick={this.setPeriodOfData}
+                    >
+                        Dzień
+                    </button>
+                    <button
+                        className="global-button"
+                        value={7}
+                        onClick={this.setPeriodOfData}
+                    >
+                        Tydzień
+                    </button>
+                    <button
+                        className="global-button"
+                        value={31}
+                        onClick={this.setPeriodOfData}
+                    >
+                        Miesiac
+                    </button>
+                    <button
+                        className="global-button"
+                        value={365}
+                        onClick={this.setPeriodOfData}
+                    >
+                        Rok
+                    </button>
+                    <button
+                        className="global-button"
+                        value={9999}
+                        onClick={this.setPeriodOfData}
+                    >
+                        Wszystkie
+                    </button>
 
-                            {project.skills.map((skill) => (
-                                <p>{skill.name}</p>
-                            ))}
-                            <p>{project.description}</p>
-                            <p>{project.price}</p>
+                    {this.state.projects.map((project) => (
+                        <div className="list-project-container">
+                            <div className="project-list-details">
+                                <div className="project-list-price">
+                                    {project.price} PLN
+                                </div>
+                                <div className="project-list-category">
+                                    <Icon icon={project.icon} />
+                                    <b>
+                                        <div>{project.name}</div>
+                                    </b>
+                                </div>
+                                <div className="project-list-skills">
+                                    {project.skills.map((skill) => (
+                                        <div>{project.name}</div>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="project-list-desc">
+                                <p>{project.description}</p>
+                            </div>
                             <button
+                                className="global-button"
                                 value={project.project_id}
                                 onClick={this.deleteProject}
                             >
@@ -101,13 +137,13 @@ class ProjectsManager extends React.Component {
                                     },
                                 }}
                             >
-                                <button>Edytuj</button>
+                                <button className="global-button">
+                                    Edytuj
+                                </button>
                             </Link>
-
-                            <br />
-                        </li>
+                        </div>
                     ))}
-                </ul>
+                </div>
             </div>
         );
     }
