@@ -17,6 +17,7 @@ class Create extends React.Component {
             skills: [],
             categoryChecked: "",
             skillsChecked: [],
+            title: "",
             desc: "",
             price: 0,
             error: null,
@@ -31,6 +32,7 @@ class Create extends React.Component {
         this.thirdStep = this.thirdStep.bind(this);
         this.selectCategory = this.selectCategory.bind(this);
         this.selectSkill = this.selectSkill.bind(this);
+        this.titleChange = this.titleChange.bind(this);
         this.descChange = this.descChange.bind(this);
         this.priceChange = this.priceChange.bind(this);
         this.postProject = this.postProject.bind(this);
@@ -93,6 +95,11 @@ class Create extends React.Component {
             });
         }
     }
+    titleChange(e) {
+        this.setState({
+            title: e.target.value,
+        });
+    }
     descChange(e) {
         this.setState({
             desc: e.target.value,
@@ -111,6 +118,7 @@ class Create extends React.Component {
         var body = {
             category: this.state.categoryChecked,
             skills: this.state.skillsChecked,
+            title: this.state.title,
             desc: this.state.desc,
             price: this.state.price,
             user_id: this.state.userId,
@@ -253,6 +261,14 @@ class Create extends React.Component {
                                 id="form-third-step"
                                 style={{ display: "none" }}
                             >
+                                <div id="title">
+                                    <h2>Tytuł</h2>
+                                    <input
+                                        name="title"
+                                        minlength="5"
+                                        onChange={this.titleChange}
+                                    />
+                                </div>
                                 <div id="desc">
                                     <h2>Opis</h2>
                                     <textarea

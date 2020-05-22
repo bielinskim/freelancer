@@ -78,6 +78,9 @@ class MyProjects extends React.Component {
                                             ))}
                                         </div>
                                     </div>
+                                    <div className="project-title">
+                                        <b>{project.title}</b>
+                                    </div>
                                     <div className="project-list-desc">
                                         <p>{project.description}</p>
                                     </div>
@@ -94,13 +97,14 @@ class MyProjects extends React.Component {
                                     <div className="project-list-details">
                                         <div className="project-list-author">
                                             <b>
+                                                Wykonawca:{" "}
                                                 {project.contractor.length !=
                                                     0 &&
                                                     project.contractor[0]
-                                                        .email +
-                                                        " " +
+                                                        .login +
+                                                        " - " +
                                                         project.contractor[0]
-                                                            .login}
+                                                            .email}
                                             </b>
                                         </div>
                                         <div className="project-list-price">
@@ -117,6 +121,9 @@ class MyProjects extends React.Component {
                                                 <div>{skill.name}</div>
                                             ))}
                                         </div>
+                                    </div>
+                                    <div className="project-title">
+                                        <b>{project.title}</b>
                                     </div>
                                     <div className="project-list-desc">
                                         <p>{project.description}</p>
@@ -141,13 +148,14 @@ class MyProjects extends React.Component {
                                     <div className="project-list-details">
                                         <div className="project-list-author">
                                             <b>
+                                                Wykonawca:{" "}
                                                 {project.contractor.length !=
                                                     0 &&
                                                     project.contractor[0]
-                                                        .email +
-                                                        " " +
+                                                        .login +
+                                                        " - " +
                                                         project.contractor[0]
-                                                            .login}
+                                                            .email}
                                             </b>
                                         </div>
                                         <div className="project-list-price">
@@ -164,6 +172,9 @@ class MyProjects extends React.Component {
                                                 <div>{skill.name}</div>
                                             ))}
                                         </div>
+                                    </div>
+                                    <div className="project-title">
+                                        <b>{project.title}</b>
                                     </div>
                                     <div className="project-list-desc">
                                         <p>{project.description}</p>

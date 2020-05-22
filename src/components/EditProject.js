@@ -89,6 +89,9 @@ class EditProject extends React.Component {
                 project.category_id = e.target.value;
                 this.onChangeCategory(e.target.value);
                 break;
+            case "edit-title":
+                project.title = e.target.value;
+                break;
             case "edit-desc":
                 project.description = e.target.value;
                 break;
@@ -107,6 +110,7 @@ class EditProject extends React.Component {
             project_id: this.state.project.project_id,
             category_id: this.state.project.category_id,
             skills: this.state.skillsChecked,
+            title: this.state.project.title,
             description: this.state.project.description,
             price: this.state.project.price,
             status_id: this.state.project.status_id,
@@ -171,6 +175,16 @@ class EditProject extends React.Component {
                             </div>
                         </div>
                         <div class="edit-project-rest">
+                            <div id="title">
+                                <label>Tytuł:</label>
+                                <br />
+                                <input
+                                    id="edit-title"
+                                    type="text"
+                                    value={this.state.project.title}
+                                    onChange={this.handleChange}
+                                />
+                            </div>
                             <div>
                                 <label>Treść:</label>
                                 <br />
@@ -182,7 +196,6 @@ class EditProject extends React.Component {
                                     onChange={this.handleChange}
                                 />
                             </div>
-
                             <div>
                                 <label>Cena:</label>
                                 <br />

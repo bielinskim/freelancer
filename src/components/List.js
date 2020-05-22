@@ -74,6 +74,9 @@ class List extends React.Component {
                                         ))}
                                     </div>
                                 </div>
+                                <div className="project-title">
+                                    <b>{item.title}</b>
+                                </div>
                                 <div className="project-list-desc">
                                     <p>{item.description}</p>
                                 </div>

@@ -19,6 +19,7 @@ class Project extends React.Component {
                 id: this.props.location.state.data.project_id,
                 category: this.props.location.state.data.category_id,
                 skills: this.props.location.state.data.skills,
+                title: this.props.location.state.data.title,
                 desc: this.props.location.state.data.description,
                 price: this.props.location.state.data.price,
                 author_id: this.props.location.state.data.author_id,
@@ -202,6 +203,9 @@ class ProjectView extends React.Component {
                             <div>{skill.name}</div>
                         ))}
                     </div>
+                </div>
+                <div className="project-title">
+                    <b>{this.state.project.title}</b>
                 </div>
                 <div className="project-list-desc">
                     <p>{this.state.project.desc}</p>

@@ -118,6 +118,9 @@ class ProjectsManager extends React.Component {
                                     ))}
                                 </div>
                             </div>
+                            <div className="project-title">
+                                <b>{project.title}</b>
+                            </div>
                             <div className="project-list-desc">
                                 <p>{project.description}</p>
                             </div>

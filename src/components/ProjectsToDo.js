@@ -57,8 +57,10 @@ class ProjectsToDo extends React.Component {
                                     <div className="project-list-details">
                                         <div className="project-list-author">
                                             <b>
-                                                {project.email}
-                                                {project.login}
+                                                Autor:{" "}
+                                                {project.login +
+                                                    " - " +
+                                                    project.email}
                                             </b>
                                         </div>
                                         <div className="project-list-price">
@@ -75,6 +77,9 @@ class ProjectsToDo extends React.Component {
                                                 <div>{skill.name}</div>
                                             ))}
                                         </div>
+                                    </div>
+                                    <div className="project-title">
+                                        <b>{project.title}</b>
                                     </div>
                                     <div className="project-list-desc">
                                         <p>{project.description}</p>
@@ -92,8 +97,10 @@ class ProjectsToDo extends React.Component {
                                     <div className="project-list-details">
                                         <div className="project-list-author">
                                             <b>
-                                                {project.email}
-                                                {project.login}
+                                                Autor:{" "}
+                                                {project.login +
+                                                    " - " +
+                                                    project.email}
                                             </b>
                                         </div>
                                         <div className="project-list-price">
@@ -110,6 +117,9 @@ class ProjectsToDo extends React.Component {
                                                 <div>{skill.name}</div>
                                             ))}
                                         </div>
+                                    </div>
+                                    <div className="project-title">
+                                        <b>{project.title}</b>
                                     </div>
                                     <div className="project-list-desc">
                                         <p>{project.description}</p>

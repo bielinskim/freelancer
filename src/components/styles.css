@@ -418,6 +418,12 @@ body {
     font-weight: 700;
     float: right;
 }
+.project-title {
+    display: block;
+    width: 100%;
+    float: left;
+    padding: 10px;
+}
 .project-list-desc {
     padding: 10px;
     overflow: hidden;
@@ -542,4 +548,7 @@ body {
 .nav-logged-as {
     left: -10px;
     position: relative;
+}
+#title input {
+    width: 459px;
 }
