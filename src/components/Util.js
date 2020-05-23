@@ -2,7 +2,7 @@ import React from "react";
 
 export function getRoles() {
     return new Promise((resolve) => {
-        fetch("http://localhost:8080/roles/")
+        fetch(window.config.host + "roles/")
             .then((res) => res.json())
             .then(
                 (result) => {
@@ -17,7 +17,7 @@ export function getRoles() {
 
 export function getUsers() {
     return new Promise((resolve) => {
-        fetch("http://localhost:8080/users/")
+        fetch(window.config.host + "users/")
             .then((res) => res.json())
             .then(
                 (result) => {
@@ -34,7 +34,7 @@ export function getUsers() {
 }
 export function getSkillsByCategoryId(params) {
     return new Promise((resolve) => {
-        fetch("http://localhost:8080/skills/" + params)
+        fetch(window.config.host + "skills/" + params)
             .then((res) => res.json())
             .then(
                 (result) => {
@@ -51,7 +51,7 @@ export function getSkillsByCategoryId(params) {
 }
 export function getCategories() {
     return new Promise((resolve) => {
-        fetch("http://localhost:8080/categories")
+        fetch(window.config.host + "categories")
             .then((res) => res.json())
             .then(
                 (result) => {
@@ -68,7 +68,7 @@ export function getCategories() {
 }
 export function getOffers(params) {
     return new Promise((resolve) => {
-        fetch("http://localhost:8080/offers/" + params)
+        fetch(window.config.host + "offers/" + params)
             .then((res) => res.json())
             .then(
                 (result) => {
@@ -85,7 +85,7 @@ export function getOffers(params) {
 }
 export function getProjectsByDate(period) {
     return new Promise((resolve) => {
-        fetch("http://localhost:8080/getprojectsbydate/" + period)
+        fetch(window.config.host + "getprojectsbydate/" + period)
             .then((res) => res.json())
             .then(
                 (result) => {
@@ -99,7 +99,7 @@ export function getProjectsByDate(period) {
 }
 export function getOffersByDate(period) {
     return new Promise((resolve) => {
-        fetch("http://localhost:8080/getoffersbydate/" + period)
+        fetch(window.config.host + "getoffersbydate/" + period)
             .then((res) => res.json())
             .then(
                 (result) => {
@@ -113,7 +113,7 @@ export function getOffersByDate(period) {
 }
 export function getMyProjects(userId) {
     return new Promise((resolve) => {
-        fetch("http://localhost:8080/getmyprojects/" + userId)
+        fetch(window.config.host + "getmyprojects/" + userId)
             .then((res) => res.json())
             .then(
                 (result) => {
@@ -127,7 +127,7 @@ export function getMyProjects(userId) {
 }
 export function getProjectsToDo(userId) {
     return new Promise((resolve) => {
-        fetch("http://localhost:8080/getprojectstodo/" + userId)
+        fetch(window.config.host + "getprojectstodo/" + userId)
             .then((res) => res.json())
             .then(
                 (result) => {
@@ -149,7 +149,7 @@ export function updateProjectByChosenOffer(projectId, offerId) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
     };
-    fetch("http://localhost:8080/chooseoffer", requestOptions).then(
+    fetch(window.config.host + "chooseoffer", requestOptions).then(
         (response) => {
             if (response.status == 200) {
                 return true;
@@ -166,7 +166,7 @@ export function setStatusToDone(projectId) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
     };
-    fetch("http://localhost:8080/setstatustodone", requestOptions).then(
+    fetch(window.config.host + "setstatustodone", requestOptions).then(
         (response) => {
             if (response.status == 200) {
                 return true;
@@ -177,7 +177,8 @@ export function setStatusToDone(projectId) {
 export function checkIfUserAlreadyPostedOffer(userId, projectId) {
     return new Promise((resolve) => {
         fetch(
-            "http://localhost:8080/checkifcanpostoffer/" +
+            window.config.host +
+                "checkifcanpostoffer/" +
                 userId +
                 "/" +
                 projectId
@@ -198,7 +199,7 @@ export function deleteUser(userId) {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
     };
-    fetch("http://localhost:8080/deleteuser/" + userId, requestOptions).then(
+    fetch(window.config.host + "deleteuser/" + userId, requestOptions).then(
         (response) => {
             if (response.status == 200) {
                 return true;
@@ -212,7 +213,7 @@ export function deleteProject(projectId) {
         headers: { "Content-Type": "application/json" },
     };
     fetch(
-        "http://localhost:8080/deleteproject/" + projectId,
+        window.config.host + "deleteproject/" + projectId,
         requestOptions
     ).then((response) => {
         if (response.status == 200) {
@@ -225,7 +226,7 @@ export function deleteOffer(offerId) {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
     };
-    fetch("http://localhost:8080/deleteoffer/" + offerId, requestOptions).then(
+    fetch(window.config.host + "deleteoffer/" + offerId, requestOptions).then(
         (response) => {
             if (response.status == 200) {
                 return true;

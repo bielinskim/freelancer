@@ -384,7 +384,7 @@ class AddOffer extends React.Component {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
         };
-        fetch("http://localhost:8080/postoffer", requestOptions).then(
+        fetch(window.config.host + "postoffer", requestOptions).then(
             function () {
                 var checkboxes = document.getElementsByClassName(
                     "offer-skills-checkbox"

@@ -45,7 +45,7 @@ class Register extends React.Component {
             },
             body: JSON.stringify(body),
         };
-        fetch("http://localhost:8080/register", request)
+        fetch(window.config.host + "register", request)
             .then((result) => {
                 // status: 200 jesli ok
                 if (result.status == 200) {

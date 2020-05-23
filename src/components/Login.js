@@ -28,7 +28,8 @@ class Login extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         fetch(
-            "http://localhost:8080/login/" +
+            window.config.host +
+                "login/" +
                 this.state.login +
                 "/" +
                 SHA256(this.state.password).toString()

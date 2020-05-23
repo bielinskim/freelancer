@@ -75,7 +75,7 @@ class AddUser extends React.Component {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
         };
-        fetch("http://localhost:8080/edituser", requestOptions).then(() =>
+        fetch(window.config.host + "edituser", requestOptions).then(() =>
             alert("Zedytowano")
         );
     }

@@ -20,7 +20,7 @@ class List extends React.Component {
         this.browseProjects();
     }
     browseProjects() {
-        fetch("http://localhost:8080/projectsbyskills/" + this.state.skills)
+        fetch(window.config.host + "projectsbyskills/" + this.state.skills)
             .then((res) => res.json())
             .then((result) => {
                 this.setState({

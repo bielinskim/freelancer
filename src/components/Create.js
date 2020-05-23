@@ -128,7 +128,7 @@ class Create extends React.Component {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
         };
-        fetch("http://localhost:8080/createproject", requestOptions).then(() =>
+        fetch(window.config.host + "createproject", requestOptions).then(() =>
             alert("Wysłano")
         );
     }

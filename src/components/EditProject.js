@@ -120,7 +120,7 @@ class EditProject extends React.Component {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
         };
-        fetch("http://localhost:8080/editproject", requestOptions).then(() =>
+        fetch(window.config.host + "editproject", requestOptions).then(() =>
             alert("Zedytowano")
         );
     }

@@ -79,7 +79,7 @@ class EditUser extends React.Component {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
         };
-        fetch("http://localhost:8080/register", requestOptions).then(() =>
+        fetch(window.config.host + "register", requestOptions).then(() =>
             alert("Dodano")
         );
         var user = this.state.user;
