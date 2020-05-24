@@ -35,13 +35,13 @@ body {
     background: rgb(72, 41, 178);
     background: linear-gradient(
         167deg,
-        rgba(90, 62, 186, 1) 54%,
-        rgba(72, 41, 178, 1) 54%
+        rgba(90, 62, 186, 1) 55.5%,
+        rgba(72, 41, 178, 1) 55.5%
     );
 }
 .home-content {
     padding-top: 5vh;
-    max-width: 800px;
+    max-width: 700px;
     margin: 0 auto;
 }
 .home-button-container {
