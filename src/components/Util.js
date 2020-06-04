@@ -111,6 +111,20 @@ export function getOffersByDate(period) {
             );
     });
 }
+export function getReportByDate(period) {
+    return new Promise((resolve) => {
+        fetch(window.config.host + "getreportbydate/" + period)
+            .then((res) => res.json())
+            .then(
+                (result) => {
+                    resolve(result);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+    });
+}
 export function getMyProjects(userId) {
     return new Promise((resolve) => {
         fetch(window.config.host + "getmyprojects/" + userId)

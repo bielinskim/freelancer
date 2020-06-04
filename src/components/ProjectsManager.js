@@ -20,7 +20,7 @@ class ProjectsManager extends React.Component {
         this.deleteProject = this.deleteProject.bind(this);
     }
     componentDidMount() {
-        this.getProjectsByDate();
+        this.getProjectsByDate(this.state.periodOfData);
     }
 
     changeLoginStatus() {
@@ -33,22 +33,23 @@ class ProjectsManager extends React.Component {
                 projects: [],
             });
         } else {
-            this.getProjectsByDate();
+            this.getProjectsByDate(this.state.periodOfData);
         }
     }
     setPeriodOfData(e) {
         this.setState({ periodOfData: e.target.value });
+        this.getProjectsByDate(e.target.value);
     }
     async deleteProject(e) {
         await deleteProject(e.target.value);
         this.setState({
             update: this.state.update + 1,
         });
-        this.getProjectsByDate();
+        this.getProjectsByDate(this.state.periodOfData);
     }
-    async getProjectsByDate() {
+    async getProjectsByDate(period) {
         if (sessionStorage.getItem("userId") != "null") {
-            var result = await getProjectsByDate(this.state.periodOfData);
+            var result = await getProjectsByDate(period);
         }
         if (sessionStorage.getItem("userId") != "null") {
             this.setState({

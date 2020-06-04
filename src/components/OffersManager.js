@@ -20,7 +20,7 @@ class OffersManager extends React.Component {
         this.deleteOffer = this.deleteOffer.bind(this);
     }
     componentDidMount() {
-        this.getOffersByDate();
+        this.getOffersByDate(this.state.periodOfData);
     }
 
     changeLoginStatus() {
@@ -36,17 +36,18 @@ class OffersManager extends React.Component {
     }
     setPeriodOfData(e) {
         this.setState({ periodOfData: e.target.value });
+        this.getOffersByDate(e.target.value);
     }
     async deleteOffer(e) {
         await deleteOffer(e.target.value);
         this.setState({
             update: this.state.update + 1,
         });
-        this.getOffersByDate();
+        this.getOffersByDate(this.state.periodOfData);
     }
-    async getOffersByDate() {
+    async getOffersByDate(period) {
         if (sessionStorage.getItem("userId") != "null") {
-            var result = await getOffersByDate(this.state.periodOfData);
+            var result = await getOffersByDate(period);
         }
         if (sessionStorage.getItem("userId") != "null") {
             this.setState({

@@ -7,6 +7,7 @@ import List from "./components/List";
 import Project from "./components/Project";
 import MyProjects from "./components/MyProjects.js";
 import ProjectsToDo from "./components/ProjectsToDo.js";
+import Reports from "./components/Reports.js";
 import ProjectsManager from "./components/ProjectsManager.js";
 import OffersManager from "./components/OffersManager.js";
 import Admin from "./components/Admin.js";
@@ -36,6 +37,7 @@ class App extends React.Component {
                     <Route path="/project" component={Project} />
                     <Route path="/myprojects" component={MyProjects} />
                     <Route path="/projectstodo" component={ProjectsToDo} />
+                    <Route path="/reports" component={Reports} />
                     <Route
                         path="/projectsmanager"
                         component={ProjectsManager}

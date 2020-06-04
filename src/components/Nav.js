@@ -38,6 +38,12 @@ class Navigation extends React.Component {
                         </li>
                         {(sessionStorage.getItem("roleId") == "1" ||
                             sessionStorage.getItem("roleId") == "2") && (
+                            <Link class="nav-link" to="/reports">
+                                Raporty
+                            </Link>
+                        )}
+                        {(sessionStorage.getItem("roleId") == "1" ||
+                            sessionStorage.getItem("roleId") == "2") && (
                             <li class="nav-item dropdown">
                                 <a
                                     class="nav-link dropdown-toggle"
